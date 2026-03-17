@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>墨跡辨蹤：終極通關文牒</title>
+    <title>墨跡辨蹤：漢字相似字挑戰 (Ink Trace)</title>
     <style>
         :root {
-            --paper: #f4f1ea;
+            --paper: #e8d5b5;
             --ink: #1a1a1a;
             --seal: #b22222;
             --gold: #d4af37;
@@ -16,69 +16,97 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap');
 
         * { box-sizing: border-box; }
-        body { margin: 0; background: #0a0a0a; font-family: 'Noto Serif TC', serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        body { 
+            margin: 0; background: #0a0a0a; font-family: 'Noto Serif TC', serif; 
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; 
+        }
 
-        /* 主畫板 */
+        /* 主畫板：羊皮紙古風 */
         #game-board {
             position: relative; width: 95vw; max-width: 900px; height: 90vh;
-            background: #e8d5b5 url('https://www.transparenttextures.com/patterns/papyros.png');
+            background: #e8d5b5;
+            background-image: radial-gradient(circle at center, transparent 0%, rgba(139,69,19,0.1) 100%), url('https://www.transparenttextures.com/patterns/papyros.png');
             border: 12px solid var(--wood); box-shadow: 0 0 60px rgba(0,0,0,1);
             display: flex; flex-direction: column; padding: 20px 40px; z-index: 1;
         }
 
-        /* 導覽按鈕 */
-        #nav-btns { position: absolute; top: 20px; left: -35px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-        .nav-tag { background: var(--wood); color: white; border: 1px solid var(--gold); padding: 15px 5px; writing-mode: vertical-lr; cursor: pointer; font-size: 0.8rem; }
-
-        /* 關卡地圖 */
-        .stage-map { display: flex; justify-content: center; gap: 20px; margin: 10px 0; }
-        .stage-node { 
-            width: 45px; height: 60px; background: #d2b48c; border: 2px solid var(--wood); 
-            display: flex; align-items: center; justify-content: center; font-weight: bold; position: relative; 
+        /* 回首頁按鈕 (木牌造型) */
+        #btn-home { 
+            position: absolute; top: 20px; left: -30px; background: var(--wood); color: #fdf5e6; 
+            border: 2px solid var(--gold); padding: 12px 8px; writing-mode: vertical-lr; 
+            cursor: pointer; font-size: 0.9rem; z-index: 100; letter-spacing: 2px;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.5); transition: 0.2s;
         }
-        .stage-node.active { background: white; box-shadow: 0 0 15px var(--gold); border-color: var(--gold); transform: scale(1.1); }
-        .stage-node.completed::after { content: "完"; color: var(--seal); position: absolute; transform: rotate(-15deg); font-size: 1.2rem; }
+        #btn-home:hover { transform: scale(1.05); background: #5d4037; }
+
+        header { text-align: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px; }
+        .title { font-size: 2.5rem; margin: 0; color: var(--wood); letter-spacing: 5px; font-weight: 900; }
+
+        /* 關卡地圖 (壹貳參肆伍) */
+        .stage-map { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
+        .stage-node { 
+            width: 40px; height: 55px; background: #d2b48c; border: 2px solid var(--wood); 
+            display: flex; align-items: center; justify-content: center; font-weight: bold; position: relative;
+            color: var(--wood); transition: 0.3s; box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+        }
+        .stage-node.active { background: #fff; box-shadow: 0 0 15px var(--gold); border-color: var(--gold); transform: translateY(-5px); }
+        .stage-node.completed::after { 
+            content: "印"; color: var(--seal); position: absolute; transform: rotate(-15deg); 
+            font-size: 1.2rem; opacity: 0.8; 
+        }
+
+        /* 狀態列與每關印章槽 */
+        .status-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; color: #555; }
+        .progress-tray { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; }
+        .stamp-slot { 
+            width: 45px; height: 45px; border: 1px dashed #999; display: flex; 
+            align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; 
+        }
+
+        /* 題目區 */
+        #content-area { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .sentence-cn { font-size: 2.2rem; margin-bottom: 8px; color: var(--ink); }
+        .sentence-en { font-size: 1.1rem; color: #555; font-style: italic; margin-bottom: 40px; }
+        .blank-space { 
+            display: inline-block; min-width: 60px; border-bottom: 3px solid var(--ink); 
+            color: var(--seal); font-weight: bold; margin: 0 5px; 
+        }
 
         /* 硯台按鈕 */
+        .option-container { display: flex; gap: 30px; }
         .inkstone-btn {
-            width: 120px; height: 120px; background: radial-gradient(circle at 30% 30%, #444, #111);
-            color: white; border-radius: 10% 10% 50% 50%; font-size: 2.2rem; cursor: pointer; border: none;
-            box-shadow: 5px 10px 20px rgba(0,0,0,0.5); transition: 0.2s;
+            width: 100px; height: 100px; background: radial-gradient(circle at 30% 30%, #444, #111);
+            color: #eee; border-radius: 10% 10% 45% 45%; font-size: 2.2rem; cursor: pointer; border: none;
+            box-shadow: 4px 8px 15px rgba(0,0,0,0.6); transition: 0.2s; display: flex; align-items: center; justify-content: center;
         }
-        .inkstone-btn:hover { transform: translateY(-5px) rotate(2deg); }
+        .inkstone-btn:hover { transform: translateY(-5px) scale(1.05); }
 
-        /* 通關文牒樣式 */
-        .passport-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 3000;
+        /* 全螢幕彈窗 (選單、錯誤、通關) */
+        .overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000; 
         }
-        .passport-scroll {
-            width: 85vw; max-width: 700px; height: 80vh; background: var(--gold);
-            padding: 10px; border: 5px solid #8b4513; display: flex; 
-            animation: open-scroll 1.5s ease-out forwards; overflow: hidden;
+        .certificate { 
+            background: #fdf5e6; padding: 40px; border: 12px double var(--wood); 
+            text-align: center; width: 90%; max-width: 500px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
-        @keyframes open-scroll { from { width: 0; } to { width: 85vw; } }
+        .btn-start { 
+            background: var(--wood); color: white; padding: 12px 20px; font-size: 1.1rem; 
+            border: none; cursor: pointer; margin-top: 15px; width: 100%; font-family: 'Noto Serif TC', serif;
+        }
+        .btn-start:hover { background: var(--gold); color: var(--wood); font-weight: bold; }
 
-        .passport-content {
-            background: white; flex-grow: 1; padding: 40px; border: 2px solid #8b4513;
-            text-align: center; position: relative; display: flex; flex-direction: column; align-items: center;
+        /* 終極通關文牒專屬特效 */
+        #passport-wrap { background: var(--gold); padding: 5px; max-width: 700px; border: 3px solid #8b4513; }
+        #dust-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .final-seals { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .seal-small { width: 50px; height: 50px; border: 2px solid var(--seal); color: var(--seal); font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transform: rotate(-10deg); }
+        .seal-giant { 
+            margin: 20px auto 0; width: 120px; height: 120px; border: 5px solid var(--seal); color: var(--seal); 
+            font-size: 2.5rem; font-weight: 900; display: flex; align-items: center; justify-content: center; 
+            transform: scale(5); opacity: 0; animation: slam 0.5s 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .passport-title { font-size: 3rem; color: var(--wood); margin: 0; border-bottom: 3px double var(--gold); width: 100%; }
-        .passport-body { font-size: 1.2rem; line-height: 1.8; margin-top: 30px; color: #333; }
-        .passport-rank { font-size: 4rem; color: var(--seal); margin: 20px 0; font-weight: 900; }
-        
-        /* 粒子金粉 */
-        .gold-dust { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-
-        /* 朱砂印章 */
-        .final-seal-box { display: flex; gap: 20px; margin-top: 20px; }
-        .small-seal { width: 60px; height: 60px; border: 2px solid var(--seal); color: var(--seal); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; transform: rotate(-10deg); }
-        .grand-gold-seal {
-            margin-top: 20px; width: 120px; height: 120px; border: 6px double var(--gold);
-            color: var(--gold); font-size: 2.5rem; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; transform: scale(5); opacity: 0; animation: slam-gold 0.6s 2s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes slam-gold { to { transform: scale(1) rotate(-5deg); opacity: 1; } }
+        @keyframes slam { to { transform: scale(1) rotate(-5deg); opacity: 1; } }
 
         .hidden { display: none !important; }
     </style>
@@ -86,181 +114,308 @@
 <body>
 
     <div id="game-board">
-        <div id="nav-btns">
-            <button class="nav-tag" onclick="location.reload()">重新開始</button>
-            <button id="home-tag" class="nav-tag hidden" onclick="returnToMenu()">回首頁</button>
-        </div>
+        <button id="btn-home" class="hidden" onclick="returnToMenu()">回首頁</button>
 
-        <div id="menu" class="passport-overlay">
-            <div class="passport-content" style="max-width: 500px; height: auto;">
-                <h1 style="color:var(--wood)">墨跡辨蹤</h1>
-                <p>Choose Your Path / 選擇程度</p>
-                <button class="nav-tag" style="writing-mode: horizontal-tb; width: 100%; margin-top: 10px;" onclick="startGame(0)">初級：初試鋒芒 (Elementary)</button>
-                <button class="nav-tag" style="writing-mode: horizontal-tb; width: 100%; margin-top: 10px;" onclick="startGame(1)">中級：略有小成 (Intermediate)</button>
-                <button class="nav-tag" style="writing-mode: horizontal-tb; width: 100%; margin-top: 10px;" onclick="startGame(2)">高級：登峰造極 (Advanced)</button>
+        <div id="start-menu" class="overlay">
+            <div class="certificate">
+                <h1 style="color:var(--wood); font-size:3rem; margin:0;">墨跡辨蹤</h1>
+                <p style="color:#666; font-style:italic;">Ink Trace: Character Challenge</p>
+                <div style="margin-top: 30px;">
+                    <button class="btn-start" onclick="initGame(0)">初級：初試鋒芒 (Elementary)</button>
+                    <button class="btn-start" onclick="initGame(1)">中級：略有小成 (Intermediate)</button>
+                    <button class="btn-start" onclick="initGame(2)">高級：登峰造極 (Advanced)</button>
+                </div>
             </div>
         </div>
 
         <header>
-            <h1 id="current-rank-title" style="margin:0; color:var(--wood); font-size:2.5rem;">識字小童</h1>
+            <h1 id="rank-title" class="title">識字小童</h1>
         </header>
 
         <div class="stage-map" id="stage-map">
-            <div class="stage-node">壹</div><div class="stage-node">貳</div><div class="stage-node">參</div><div class="stage-node">肆</div><div class="stage-node">伍</div>
+            <div class="stage-node">壹</div><div class="stage-node">貳</div>
+            <div class="stage-node">參</div><div class="stage-node">肆</div>
+            <div class="stage-node">伍</div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; margin:10px 0; font-weight:bold;">
+        <div class="status-row">
             <span id="stage-text">關卡：1 / 5</span>
             <span id="timer-text">耗時：0s</span>
         </div>
 
-        <div id="question-box" style="flex-grow:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-            <div id="sentence-cn" style="font-size:2.2rem; margin-bottom:10px;"></div>
-            <div id="sentence-en" style="color:#666; font-style:italic; margin-bottom:40px;"></div>
-            <div id="options" style="display:flex; gap:30px;"></div>
+        <div class="progress-tray" id="stamp-tray">
+            <div class="stamp-slot"></div><div class="stamp-slot"></div><div class="stamp-slot"></div><div class="stamp-slot"></div><div class="stamp-slot"></div>
         </div>
 
-        <div id="final-award" class="passport-overlay hidden">
-            <div class="passport-scroll">
-                <div class="passport-content">
-                    <canvas class="gold-dust" id="dust-canvas"></canvas>
-                    <h1 class="passport-title">通關文牒</h1>
-                    <div class="passport-rank">翰林學士</div>
-                    <div class="passport-body">
-                        <b>才高八斗，學富五車。</b><br>
-                        爾於漢字相似字之修煉，已達登峰造極之境。<br><br>
-                        <small><i>Possessing immense talent and vast learning.<br>Your mastery of Chinese characters has reached the pinnacle of perfection.</i></small>
-                    </div>
-                    <div class="final-seal-box">
-                        <div class="small-seal">準</div><div class="small-seal">精</div><div class="small-seal">神</div>
-                    </div>
-                    <div class="grand-gold-seal">博學</div>
-                    <button class="nav-tag" style="writing-mode: horizontal-tb; margin-top:30px;" onclick="location.reload()">截圖留念並返回</button>
-                </div>
+        <div id="content-area">
+            <div id="sentence-cn" class="sentence-cn"></div>
+            <div id="sentence-en" class="sentence-en"></div>
+            <div id="options" class="option-container"></div>
+        </div>
+
+        <div id="error-overlay" class="overlay hidden">
+            <div class="certificate" style="border-color:var(--seal); max-width:400px;">
+                <h2 style="color:var(--seal); margin-top:0;">辨析錯誤</h2>
+                <div id="error-details" style="text-align:left; font-size:1.1rem; line-height:1.6; margin: 20px 0;"></div>
+                <button class="btn-start" style="background:var(--seal);" onclick="hideError()">繼續嘗試</button>
             </div>
         </div>
-        
-        <div id="error-box" class="passport-overlay hidden" style="background:rgba(0,0,0,0.8);">
-            <div class="passport-content" style="max-width:400px; height:auto; border: 10px solid var(--seal);">
-                <h2 style="color:var(--seal)">辨析錯誤</h2>
-                <div id="error-info" style="text-align:left; margin:20px 0;"></div>
-                <button class="nav-tag" style="writing-mode: horizontal-tb; width:100%;" onclick="hideError()">繼續嘗試</button>
+
+        <div id="promo-overlay" class="overlay hidden">
+            <div class="certificate">
+                <h2 style="color:var(--wood)">成就達成證明</h2>
+                <h1 id="promo-title" style="font-size:2.5rem; color:var(--seal); margin:10px 0;"></h1>
+                <p id="promo-desc"></p>
+                <button class="btn-start" onclick="nextTier()">接受晉封 (Next Level)</button>
+            </div>
+        </div>
+
+        <div id="ultimate-overlay" class="overlay hidden">
+            <div class="certificate" id="passport-wrap">
+                <div style="background:#fff; padding:40px; position:relative; overflow:hidden;">
+                    <canvas id="dust-canvas"></canvas>
+                    <h1 style="color:var(--wood); border-bottom:3px double var(--gold); margin:0 0 20px 0;">通關文牒</h1>
+                    <div style="font-size:1.2rem; line-height:1.8;">
+                        <b>才高八斗，學富五車。</b><br>
+                        爾於漢字相似字之修煉，已達登峰造極之境。<br>
+                        <span style="font-size:0.9rem; color:#666; font-style:italic;">Possessing immense talent. Your mastery of Chinese characters has reached the pinnacle of perfection.</span>
+                    </div>
+                    <div class="final-seals">
+                        <div class="seal-small">準</div><div class="seal-small">精</div><div class="seal-small">神</div>
+                    </div>
+                    <div class="seal-giant">博學</div>
+                    <button class="btn-start" style="margin-top:40px;" onclick="location.reload()">截圖留念並返回首頁</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 完整的 75 題庫數據 (為節省長度，此處僅展示結構，應補齊之前提供的 75 題)
+        // 完整 75 題庫 (無重複，情境完整)
         const DATABASE = [
-            // 初級 (Tier 0)
+            // 初級 (Tier 0) - 25題
             [
                 { s: "今天天氣很[ ]朗。", q: "晴", o: ["晴", "請"], e: "The weather is very sunny today.", p: "qíng", d: "晴 (Sunny) vs 請 (Please)" },
-                { s: "這件事[ ]非常複雜。", q: "情", o: ["情", "清"], e: "The situation is very complicated.", p: "qíng", d: "情 (Feeling) vs 清 (Clear)" },
                 { s: "[ ]坐下來喝杯茶。", q: "請", o: ["情", "請"], e: "Please sit down and have tea.", p: "qǐng", d: "請 (Please) vs 情 (Feeling)" },
+                { s: "這件事[ ]非常複雜。", q: "情", o: ["情", "清"], e: "The situation is very complicated.", p: "qíng", d: "情 (Situation) vs 清 (Clear)" },
                 { s: "小河的水很[ ]澈。", q: "清", o: ["清", "請"], e: "The creek water is very clear.", p: "qīng", d: "清 (Clear) vs 請 (Please)" },
-                { s: "他是班上[ ]聰明的。", q: "最", o: ["嘴", "最"], e: "He is the smartest in class.", p: "zuì", d: "最 (Most) vs 嘴 (Mouth)" },
                 { s: "媽媽去市[ ]買菜。", q: "場", o: ["場", "湯"], e: "Mom went to the market.", p: "chǎng", d: "場 (Market) vs 湯 (Soup)" },
+                
                 { s: "這碗蔬菜[ ]很好喝。", q: "湯", o: ["湯", "場"], e: "This soup is delicious.", p: "tāng", d: "湯 (Soup) vs 場 (Field)" },
                 { s: "這隻[ ]跑得飛快。", q: "馬", o: ["馬", "媽"], e: "This horse runs fast.", p: "mǎ", d: "馬 (Horse) vs 媽 (Mother)" },
                 { s: "我的[ ]媽辛苦了。", q: "媽", o: ["馬", "媽"], e: "My mother worked hard.", p: "mā", d: "媽 (Mother) vs 馬 (Horse)" },
                 { s: "他在本子上[ ]字。", q: "寫", o: ["寫", "謝"], e: "He is writing characters.", p: "xiě", d: "寫 (Write) vs 謝 (Thank)" },
+                { s: "非常感[ ]你的幫忙。", q: "謝", o: ["寫", "謝"], e: "Thank you very much for helping.", p: "xiè", d: "謝 (Thank) vs 寫 (Write)" },
+                
                 { s: "大家[ ]一起努力。", q: "都", o: ["都", "部"], e: "Everyone works hard together.", p: "dōu", d: "都 (All) vs 部 (Part)" },
                 { s: "這是一[ ]好電影。", q: "部", o: ["部", "都"], e: "This is a good movie.", p: "bù", d: "部 (Unit) vs 都 (All)" },
-                { s: "這條路很[ ]，不用轉彎。", q: "直", o: ["真", "直"], e: "This road is straight.", p: "zhí", d: "直 (Straight) vs 真 (True)" },
+                { s: "這條路很[ ]。", q: "直", o: ["真", "直"], e: "This road is straight.", p: "zhí", d: "直 (Straight) vs 真 (True)" },
                 { s: "這本書[ ]很有趣。", q: "真", o: ["真", "直"], e: "This book is truly interesting.", p: "zhēn", d: "真 (True) vs 直 (Straight)" },
                 { s: "不要一直[ ]著我看。", q: "盯", o: ["盯", "釘"], e: "Don't keep staring at me.", p: "dīng", d: "盯 (Stare) vs 釘 (Nail)" },
+                
                 { s: "牆上有根鐵[ ]。", q: "釘", o: ["盯", "釘"], e: "There is a nail on the wall.", p: "dīng", d: "釘 (Nail) vs 盯 (Stare)" },
                 { s: "太陽從東方升[ ]。", q: "起", o: ["起", "趕"], e: "The sun rises from the east.", p: "qǐ", d: "起 (Rise) vs 趕 (Hurry)" },
+                { s: "我要[ ]快去學校。", q: "趕", o: ["起", "趕"], e: "I need to hurry to school.", p: "gǎn", d: "趕 (Hurry) vs 起 (Rise)" },
                 { s: "妹妹喜歡喝[ ]奶。", q: "牛", o: ["牛", "午"], e: "Sister likes cow milk.", p: "niú", d: "牛 (Cow) vs 午 (Noon)" },
                 { s: "我們中[ ]見面吧。", q: "午", o: ["牛", "午"], e: "Let's meet at noon.", p: "wǔ", d: "午 (Noon) vs 牛 (Cow)" },
+                
                 { s: "請把門關[ ]。", q: "上", o: ["上", "下"], e: "Please close the door.", p: "shàng", d: "上 (Up) vs 下 (Down)" },
                 { s: "樹[ ]有很多螞蟻。", q: "下", o: ["上", "下"], e: "Ants are under the tree.", p: "xià", d: "下 (Down) vs 上 (Up)" },
                 { s: "這件衣服很乾[ ]。", q: "淨", o: ["淨", "爭"], e: "Clothing is very clean.", p: "jìng", d: "淨 (Clean) vs 爭 (Strive)" },
-                { s: "不要跟我[ ]這個。", q: "爭", o: ["淨", "爭"], e: "Don't strive with me.", p: "zhēng", d: "爭 (Strive) vs 淨 (Clean)" },
-                { s: "這是一個好[ ]法。", q: "方", o: ["放", "方"], e: "This is a good method.", p: "fāng", d: "方 (Way) vs 放 (Put)" },
-                { s: "請把書[ ]回桌上。", q: "放", o: ["放", "方"], e: "Put the book on the table.", p: "fàng", d: "放 (Put) vs 方 (Way)" }
+                { s: "這是一個好[ ]法。", q: "方", o: ["放", "方"], e: "This is a good method.", p: "fāng", d: "方 (Method) vs 放 (Put)" },
+                { s: "請把書[ ]回桌上。", q: "放", o: ["放", "方"], e: "Put the book on the table.", p: "fàng", d: "放 (Put) vs 方 (Method)" }
             ],
-            // 中級 (Tier 1) - 補齊 25 題 ...
+            // 中級 (Tier 1) - 25題
             [
-                { s: "他[ ]然已經走了。", q: "既", o: ["既", "即"], e: "He already left.", p: "jì", d: "既 vs 即" },
-                { s: "請[ ]刻出發。", q: "即", o: ["既", "即"], e: "Set off immediately.", p: "jí", d: "即 vs 既" },
-                { s: "區[ ]問題的好方法。", q: "辨", o: ["辨", "辯"], e: "Way to distinguish problems.", p: "biàn", d: "辨 vs 辯" },
-                { s: "不要跟我爭[ ]。", q: "辯", o: ["辨", "辯"], e: "Don't argue with me.", p: "biàn", d: "辯 vs 辨" },
-                { s: "這件事[ ]須處理。", q: "必", o: ["必", "畢"], e: "Must handle this.", p: "bì", d: "必 vs 畢" }
-            ].concat(Array(20).fill({s:"中級測驗句子[ ]。", q:"中", o:["中","種"], e:"Intermediate test sentence.", p:"zhōng", d:"中 vs 種"})),
-            // 高級 (Tier 2) - 補齊 25 題 ...
+                { s: "他[ ]然已經走了。", q: "既", o: ["既", "即"], e: "He already left.", p: "jì", d: "既 (Already) vs 即 (Immediately)" },
+                { s: "請[ ]刻出發。", q: "即", o: ["既", "即"], e: "Set off immediately.", p: "jí", d: "即 (Immediately) vs 既 (Already)" },
+                { s: "這是[ ]析問題的好方法。", q: "辨", o: ["辨", "辯"], e: "Way to distinguish problems.", p: "biàn", d: "辨 (Distinguish) vs 辯 (Argue)" },
+                { s: "不要跟我爭[ ]。", q: "辯", o: ["辨", "辯"], e: "Don't argue with me.", p: "biàn", d: "辯 (Argue) vs 辨 (Distinguish)" },
+                { s: "這件事[ ]須處理。", q: "必", o: ["必", "畢"], e: "Must handle this.", p: "bì", d: "必 (Must) vs 畢 (Finish)" },
+                
+                { s: "他在大學[ ]業了。", q: "畢", o: ["必", "畢"], e: "He graduated university.", p: "bì", d: "畢 (Finish) vs 必 (Must)" },
+                { s: "我[ ]經做完了。", q: "已", o: ["已", "己"], e: "I have already finished.", p: "yǐ", d: "已 (Already) vs 己 (Self)" },
+                { s: "不要迷失自[ ]。", q: "己", o: ["已", "己"], e: "Don't lose yourself.", p: "jǐ", d: "己 (Self) vs 已 (Already)" },
+                { s: "這是一個採[ ]節目。", q: "訪", o: ["訪", "放"], e: "This is an interview program.", p: "fǎng", d: "訪 (Interview) vs 放 (Put)" },
+                { s: "這份報[ ]很準確。", q: "導", o: ["導", "道"], e: "This report is accurate.", p: "dǎo", d: "導 (Guide/Report) vs 道 (Road)" },
+                
+                { s: "這條[ ]路很長。", q: "道", o: ["導", "道"], e: "This road is long.", p: "dào", d: "道 (Road) vs 導 (Guide)" },
+                { s: "他很[ ]得這件事。", q: "記", o: ["記", "計"], e: "He remembers this well.", p: "jì", d: "記 (Remember) vs 計 (Plan)" },
+                { s: "這是一個好[ ]策。", q: "計", o: ["記", "計"], e: "This is a good plan.", p: "jì", d: "計 (Plan) vs 記 (Remember)" },
+                { s: "你[ ]該去睡覺了。", q: "應", o: ["應", "因"], e: "You should go to sleep.", p: "yīng", d: "應 (Should) vs 因 (Because)" },
+                { s: "[ ]為下雨所以沒去。", q: "因", o: ["應", "因"], e: "Didn't go because of rain.", p: "yīn", d: "因 (Because) vs 應 (Should)" },
+                
+                { s: "這件商品物超所[ ]。", q: "值", o: ["值", "置"], e: "Item is worth the price.", p: "zhí", d: "值 (Value) vs 置 (Place)" },
+                { s: "請安[ ]好行李。", q: "置", o: ["值", "置"], e: "Please place your luggage.", p: "zhì", d: "置 (Place) vs 值 (Value)" },
+                { s: "他在考[ ]中拿高分。", q: "試", o: ["試", "式"], e: "Got high score on test.", p: "shì", d: "試 (Test) vs 式 (Style)" },
+                { s: "這是一種新的方[ ]。", q: "式", o: ["試", "式"], e: "This is a new style.", p: "shì", d: "式 (Style) vs 試 (Test)" },
+                { s: "請保持安[ ]。", q: "靜", o: ["靜", "淨"], e: "Please keep quiet.", p: "jìng", d: "靜 (Quiet) vs 淨 (Clean)" },
+                
+                { s: "這是一份[ ]單。", q: "菜", o: ["菜", "采"], e: "This is a menu.", p: "cài", d: "菜 (Dish) vs 采 (Spirit)" },
+                { s: "豐富多[ ]的生活。", q: "采", o: ["菜", "采"], e: "Colorful life.", p: "cǎi", d: "采 (Spirit) vs 菜 (Dish)" },
+                { s: "馬路上堵[ ]了。", q: "塞", o: ["賽", "塞"], e: "Road is congested.", p: "sāi", d: "塞 (Block) vs 賽 (Race)" },
+                { s: "這場比[ ]很精彩。", q: "賽", o: ["賽", "塞"], e: "This match is exciting.", p: "sài", d: "賽 (Race) vs 塞 (Block)" },
+                { s: "我們正[ ]對挑戰。", q: "面", o: ["面", "麵"], e: "We are facing a challenge.", p: "miàn", d: "面 (Face) vs 麵 (Noodles)" }
+            ],
+            // 高級 (Tier 2) - 25題
             [
-                { s: "軍隊正在[ ]署。", q: "部", o: ["部", "佈"], e: "Army is deploying.", p: "bù", d: "部 vs 佈" },
-                { s: "今年是戊[ ]年。", q: "戌", o: ["戊", "戌"], e: "It is the Wu-Xu year.", p: "xū", d: "戌 vs 戊" },
-                { s: "他在場上拚[ ]。", q: "搏", o: ["搏", "博"], e: "Fighting on the field.", p: "bó", d: "搏 vs 博" },
-                { s: "他學識淵[ ]。", q: "博", o: ["搏", "博"], e: "Vast knowledge.", p: "bó", d: "博 vs 搏" },
-                { s: "肆無忌[ ]。", q: "憚", o: ["憚", "彈"], e: "Without scruples.", p: "dàn", d: "憚 vs 彈" }
-            ].concat(Array(20).fill({s:"高級測驗句子[ ]。", q:"高", o:["高","搞"], e:"Advanced test sentence.", p:"gāo", d:"高 vs 搞"}))
+                { s: "軍隊正在[ ]署。", q: "部", o: ["部", "佈"], e: "Army is deploying.", p: "bù", d: "部 (Deploy) vs 佈 (Spread)" },
+                { s: "今年是戊[ ]年。", q: "戌", o: ["戊", "戌"], e: "It is the Wu-Xu year.", p: "xū", d: "戌 (11th Branch) vs 戊 (5th Stem)" },
+                { s: "他在場上拚[ ]。", q: "搏", o: ["搏", "博"], e: "Fighting on the field.", p: "bó", d: "搏 (Fight) vs 博 (Abundant)" },
+                { s: "他學識淵[ ]。", q: "博", o: ["搏", "博"], e: "Vast knowledge.", p: "bó", d: "博 (Abundant) vs 搏 (Fight)" },
+                { s: "做事不可肆無忌[ ]。", q: "憚", o: ["憚", "彈"], e: "Do not act without scruples.", p: "dàn", d: "憚 (Dread) vs 彈 (Play)" },
+                
+                { s: "他在[ ]奏鋼琴。", q: "彈", o: ["憚", "彈"], e: "Playing the piano.", p: "tán", d: "彈 (Play) vs 憚 (Dread)" },
+                { s: "請不要[ ]慢職責。", q: "怠", o: ["怠", "抬"], e: "Do not neglect duties.", p: "dài", d: "怠 (Neglect) vs 抬 (Lift)" },
+                { s: "請把頭[ ]起來。", q: "抬", o: ["怠", "抬"], e: "Please lift your head.", p: "tái", d: "抬 (Lift) vs 怠 (Neglect)" },
+                { s: "他在經[ ]一家公司。", q: "營", o: ["螢", "營"], e: "He manages a company.", p: "yíng", d: "營 (Manage) vs 螢 (Firefly)" },
+                { s: "夏夜有[ ]火蟲。", q: "螢", o: ["螢", "營"], e: "Fireflies in summer night.", p: "yíng", d: "螢 (Firefly) vs 營 (Manage)" },
+                
+                { s: "這是一場盛[ ]。", q: "宴", o: ["宴", "晏"], e: "This is a grand feast.", p: "yàn", d: "宴 (Feast) vs 晏 (Late/Peace)" },
+                { s: "言笑[ ]晏。", q: "晏", o: ["宴", "晏"], e: "Talking peacefully.", p: "yàn", d: "晏 (Peaceful) vs 宴 (Feast)" },
+                { s: "他的行為很[ ]。", q: "乖", o: ["乖", "乘"], e: "His behavior is well-behaved.", p: "guāi", d: "乖 (Behave) vs 乘 (Ride)" },
+                { s: "我們[ ]車去旅行。", q: "乘", o: ["乖", "乘"], e: "We took a ride to travel.", p: "chéng", d: "乘 (Ride) vs 乖 (Behave)" },
+                { s: "他在發[ ]。", q: "呆", o: ["呆", "杏"], e: "He is in a daze.", p: "dāi", d: "呆 (Daze) vs 杏 (Apricot)" },
+                
+                { s: "這是一棵[ ]樹。", q: "杏", o: ["呆", "杏"], e: "This is an apricot tree.", p: "xìng", d: "杏 (Apricot) vs 呆 (Daze)" },
+                { s: "這件事很[ ]手。", q: "棘", o: ["棘", "辣"], e: "This matter is thorny.", p: "jí", d: "棘 (Thorny) vs 辣 (Spicy)" },
+                { s: "這道菜很[ ]。", q: "辣", o: ["棘", "辣"], e: "This dish is spicy.", p: "là", d: "辣 (Spicy) vs 棘 (Thorny)" },
+                { s: "情況非常危[ ]。", q: "險", o: ["險", "臉"], e: "Situation is dangerous.", p: "xiǎn", d: "險 (Danger) vs 臉 (Face)" },
+                { s: "洗[ ]的時候要小心。", q: "臉", o: ["險", "臉"], e: "Be careful washing face.", p: "liǎn", d: "臉 (Face) vs 險 (Danger)" },
+                
+                { s: "他在[ ]壁辦公。", q: "隔", o: ["隔", "融"], e: "He works next door.", p: "gé", d: "隔 (Separate) vs 融 (Blend)" },
+                { s: "兩國文化[ ]合。", q: "融", o: ["隔", "融"], e: "Cultures blend.", p: "róng", d: "融 (Blend) vs 隔 (Separate)" },
+                { s: "這封信被[ ]回了。", q: "退", o: ["退", "腿"], e: "Letter was returned.", p: "tuì", d: "退 (Return) vs 腿 (Leg)" },
+                { s: "我的[ ]很酸。", q: "腿", o: ["退", "腿"], e: "My legs are sore.", p: "tuǐ", d: "腿 (Leg) vs 退 (Return)" },
+                { s: "大家紛紛[ ]薦他。", q: "推", o: ["推", "堆"], e: "People recommended him.", p: "tuī", d: "推 (Push/Recommend) vs 堆 (Pile)" }
+            ]
+        ];
+
+        const RANKS = [
+            { name: "識字小童", seal: "準", desc: "辨析精確，初顯才華" },
+            { name: "妙筆書生", seal: "精", desc: "筆墨流暢，略有小成" },
+            { name: "翰林學士", seal: "神", desc: "登峰造極，識見不凡" }
         ];
 
         let state = { tier: 0, stage: 0, qIdx: 0, timer: 0, interval: null };
 
-        function startGame(tier) {
-            state = { tier, stage: 0, qIdx: 0, timer: 0 };
-            document.getElementById('menu').classList.add('hidden');
-            document.getElementById('home-tag').classList.remove('hidden');
-            document.getElementById('current-rank-title').innerText = ["識字小童", "妙筆書生", "翰林學士"][tier];
-            updateMap(); loadQ(); startTimer();
+        // 啟動遊戲
+        function initGame(t) {
+            state = { tier: t, stage: 0, qIdx: 0, timer: 0, interval: null };
+            document.getElementById('start-menu').classList.add('hidden');
+            document.getElementById('btn-home').classList.remove('hidden');
+            document.getElementById('rank-title').innerText = RANKS[t].name;
+            startTimer(); updateUI(); loadQuestion();
         }
 
-        function returnToMenu() { clearInterval(state.interval); document.getElementById('menu').classList.remove('hidden'); }
-
-        function startTimer() { 
-            if(state.interval) clearInterval(state.interval);
-            state.interval = setInterval(() => { state.timer++; document.getElementById('timer-text').innerText = `耗時：${state.timer}s`; }, 1000); 
+        // 回首頁
+        function returnToMenu() {
+            clearInterval(state.interval);
+            document.getElementById('start-menu').classList.remove('hidden');
+            document.getElementById('btn-home').classList.add('hidden');
+            document.getElementById('promo-overlay').classList.add('hidden');
+            document.getElementById('ultimate-overlay').classList.add('hidden');
         }
 
-        function updateMap() {
+        function startTimer() {
+            if (state.interval) clearInterval(state.interval);
+            state.interval = setInterval(() => { state.timer++; document.getElementById('timer-text').innerText = `耗時：${state.timer}s`; }, 1000);
+        }
+
+        function updateUI() {
+            // 更新地圖
             const nodes = document.querySelectorAll('.stage-node');
             nodes.forEach((n, i) => {
                 n.className = 'stage-node';
-                if(i === state.stage) n.classList.add('active');
-                if(i < state.stage) n.classList.add('completed');
+                if (i === state.stage) n.classList.add('active');
+                if (i < state.stage) n.classList.add('completed');
             });
             document.getElementById('stage-text').innerText = `關卡：${state.stage + 1} / 5`;
-        }
 
-        function loadQ() {
-            const data = DATABASE[state.tier][(state.stage * 5) + state.qIdx];
-            document.getElementById('sentence-cn').innerHTML = data.s.replace("[ ]", `<span style="color:var(--seal); border-bottom:3px solid #111; min-width:50px; display:inline-block;">?</span>`);
-            document.getElementById('sentence-en').innerText = data.e;
-            const optBox = document.getElementById('options');
-            optBox.innerHTML = "";
-            [...data.o].sort(()=>Math.random()-0.5).forEach(o => {
-                const b = document.createElement('button'); b.className = 'inkstone-btn'; b.innerText = o;
-                b.onclick = () => {
-                    if(o === data.q) { state.qIdx++; if(state.qIdx >= 5) { state.stage++; state.qIdx=0; if(state.stage >= 5) endTier(); else { updateMap(); loadQ(); } } else loadQ(); }
-                    else showErr(data);
-                };
-                optBox.appendChild(b);
+            // 更新印章
+            const slots = document.querySelectorAll('.stamp-slot');
+            slots.forEach((s, i) => {
+                if (i < state.qIdx) {
+                    s.style.background = "rgba(178,34,34,0.1)"; s.style.border = "2px solid var(--seal)";
+                    s.style.color = "var(--seal)"; s.innerText = RANKS[state.tier].seal;
+                } else {
+                    s.style.background = "transparent"; s.style.border = "1px dashed #999"; s.innerText = "";
+                }
             });
         }
 
-        function showErr(d) {
-            document.getElementById('error-info').innerHTML = `<p>正確字：<b style="color:var(--seal);font-size:1.5rem">${d.q}</b></p><p>解釋：${d.p} / ${d.d}</p>`;
-            document.getElementById('error-box').classList.remove('hidden');
+        function loadQuestion() {
+            const data = DATABASE[state.tier][(state.stage * 5) + state.qIdx];
+            document.getElementById('sentence-cn').innerHTML = data.s.replace("[ ]", `<span class="blank-space">?</span>`);
+            document.getElementById('sentence-en').innerText = data.e;
+            
+            const optBox = document.getElementById('options'); optBox.innerHTML = "";
+            [...data.o].sort(() => Math.random() - 0.5).forEach(opt => {
+                const btn = document.createElement('button'); btn.className = 'inkstone-btn'; btn.innerText = opt;
+                btn.onclick = () => handleAnswer(opt, data); optBox.appendChild(btn);
+            });
         }
-        function hideError() { document.getElementById('error-box').classList.add('hidden'); }
 
-        function endTier() {
-            if(state.tier >= 2) { document.getElementById('final-award').classList.remove('hidden'); initGoldDust(); }
-            else { alert("晉級成功！準備進入下一等級。"); startGame(state.tier + 1); }
+        function handleAnswer(ans, data) {
+            if (ans === data.q) {
+                state.qIdx++; updateUI();
+                if (state.qIdx >= 5) setTimeout(finishStage, 500);
+                else setTimeout(loadQuestion, 500);
+            } else {
+                showError(data);
+            }
         }
 
+        function showError(d) {
+            document.getElementById('error-details').innerHTML = `
+                <p>正確漢字：<b style="color:var(--seal); font-size:2rem; vertical-align:middle;">${d.q}</b></p>
+                <p>拼音與意思：<b>${d.p}</b></p>
+                <p style="border-top:1px dashed #ccc; padding-top:10px;">辨析：${d.d}</p>
+            `;
+            document.getElementById('error-overlay').classList.remove('hidden');
+        }
+        function hideError() { document.getElementById('error-overlay').classList.add('hidden'); }
+
+        function finishStage() {
+            state.stage++; state.qIdx = 0;
+            if (state.stage >= 5) {
+                if (state.tier === 2) triggerUltimate();
+                else triggerPromo();
+            } else {
+                updateUI(); loadQuestion();
+            }
+        }
+
+        function triggerPromo() {
+            const r = RANKS[state.tier];
+            document.getElementById('promo-title').innerText = r.name;
+            document.getElementById('promo-desc').innerText = r.desc;
+            document.getElementById('promo-overlay').classList.remove('hidden');
+        }
+
+        function nextTier() {
+            document.getElementById('promo-overlay').classList.add('hidden');
+            initGame(state.tier + 1);
+        }
+
+        function triggerUltimate() {
+            document.getElementById('ultimate-overlay').classList.remove('hidden');
+            initGoldDust();
+        }
+
+        // 金粉粒子特效
         function initGoldDust() {
             const canvas = document.getElementById('dust-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
-            let particles = Array(50).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*3, v: Math.random()*2 }));
+            let particles = Array(50).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*3+1, v: Math.random()*1.5+0.5 }));
             function draw() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = "rgba(212,175,55,0.6)";
-                particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill(); p.y += p.v; if(p.y > canvas.height) p.y = -10; });
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "rgba(212, 175, 55, 0.7)";
+                particles.forEach(p => {
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                    p.y += p.v; if (p.y > canvas.height) p.y = -10;
+                });
                 requestAnimationFrame(draw);
             }
             draw();
