@@ -51,12 +51,26 @@
         }
         .stage-node.active { background: #fff; box-shadow: 0 0 15px var(--gold); border-color: var(--gold); transform: translateY(-5px); }
         
-        /* 修改點：將印章移至關卡方塊下方 */
+        /* 視覺化實體印章特效：「勝」字方印 */
         .stage-node.completed::after { 
-            content: "印"; color: var(--seal); position: absolute; 
-            bottom: -25px; /* 向下移動 */
-            transform: rotate(-10deg); 
-            font-size: 1.2rem; opacity: 0.9; font-weight: 900;
+            content: "勝"; 
+            color: var(--seal); 
+            position: absolute; 
+            bottom: -32px; /* 移至方塊下方 */
+            width: 26px; 
+            height: 26px;
+            border: 2px solid var(--seal); /* 紅色方框 */
+            border-radius: 4px; /* 微圓角 */
+            background: rgba(178, 34, 34, 0.05); /* 模擬印泥底紋 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem; 
+            font-weight: 900;
+            font-family: "DFKai-sb", "BiauKai", "Kaiti", "STKaiti", serif; /* 強制楷體增添印章感 */
+            opacity: 0.85; 
+            transform: rotate(-12deg); /* 微微傾斜的擬真感 */
+            box-shadow: inset 0 0 2px rgba(178,34,34,0.3);
         }
 
         /* 狀態列與每關印章槽 */
