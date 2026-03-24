@@ -181,8 +181,8 @@
                             <span class="rules-en">(Each level has 5 stages, 25 questions in total)</span>
                         </li>
                         <li>
-                            <b>根據句意與英文翻譯，選出正確的漢字</b>
-                            <span class="rules-en">(Select the correct character based on the context)</span>
+                            <b>根據聽到的句子與英文翻譯，選出正確的漢字</b>
+                            <span class="rules-en">(Select the correct character based on the audio and context)</span>
                         </li>
                         <li>
                             <b>答對可獲印章，集滿即可晉封！</b>
@@ -512,12 +512,12 @@
             document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">?</span>`);
             document.getElementById('sentence-en').innerText = data.e;
             
-            // 自動播放：將空格替換為「空格」唸出，避免劇透
-            const questionSpeechText = data.s.replace("[ ]", "，空格，");
-            speak(questionSpeechText);
+            // 選項一：一進入頁面，直接唸出包含正確答案的完整句子
+            const fullCorrectText = data.s.replace("[ ]", data.q);
+            speak(fullCorrectText);
             
-            // 設定小喇叭點擊事件：播放未完成的句子
-            document.getElementById('tts-icon-box').onclick = () => speak(questionSpeechText);
+            // 設定小喇叭點擊事件：隨時可以重聽完整句子
+            document.getElementById('tts-icon-box').onclick = () => speak(fullCorrectText);
 
             const optBox = document.getElementById('options'); optBox.innerHTML = "";
             [...data.o].sort(() => Math.random() - 0.5).forEach(opt => {
@@ -528,24 +528,17 @@
 
         function handleAnswer(ans, data) {
             if (ans === data.q) {
-                playCorrectSound(); // 播放過關音效
+                playCorrectSound(); // 播放過關叮！音效
                 
                 // 填上正確的漢字
                 document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">${data.q}</span>`);
                 
-                // 播放完整正確句子
-                const fullCorrectText = data.s.replace("[ ]", data.q);
-                speak(fullCorrectText);
-                
-                // 設定小喇叭點擊事件：改為播放完整句子
-                document.getElementById('tts-icon-box').onclick = () => speak(fullCorrectText);
-
-                // 延遲跳轉，讓學生有時間聽完語音 (1.5秒 - 2秒)
+                // 答對後稍作停留(0.8秒)即跳轉下一題，不浪費時間重複唸句子
                 setTimeout(() => {
                     state.qIdx++; updateUI();
                     if (state.qIdx >= 5) finishStage();
                     else loadQuestion();
-                }, 2000); 
+                }, 800); 
 
             } else {
                 showError(data);
@@ -559,8 +552,7 @@
                 <p style="border-top:1px dashed #ccc; padding-top:10px;">辨析：${d.d}</p>
             `;
             document.getElementById('error-overlay').classList.remove('hidden');
-            // 答錯時自動朗讀拼音與辨析 (不唸全句避免擾民)
-            speak(`${d.q}，拼音是 ${d.p}。${d.d}`);
+            // 已經將 speak() 移除，答錯頁面完全靜音，無任何解說語音！
         }
         function hideError() { document.getElementById('error-overlay').classList.add('hidden'); }
 
@@ -588,7 +580,6 @@
             }
 
             document.getElementById('promo-overlay').classList.remove('hidden');
-            speak(`恭喜晉封為 ${r.name}`);
         }
 
         function nextTier() {
@@ -608,7 +599,6 @@
             }
 
             document.getElementById('ultimate-overlay').classList.remove('hidden');
-            speak("恭喜！達成登峰造極成就，御賜翰林學士。");
             initGoldDust();
         }
 
