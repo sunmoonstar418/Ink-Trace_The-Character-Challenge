@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>墨跡辨蹤：漢字相似字挑戰 (Ink Trace)</title>
+    <title>慧眼識字：漢字相似字挑戰 (Sharp Eyes for Characters)</title>
     <style>
         :root {
             --paper: #e8d5b5;
@@ -106,13 +106,19 @@
         }
         .certificate { 
             background: #fdf5e6; padding: 40px; border: 12px double var(--wood); 
-            text-align: center; width: 90%; max-width: 500px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            text-align: center; width: 90%; max-width: 600px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
         .btn-start { 
             background: var(--wood); color: white; padding: 12px 20px; font-size: 1.1rem; 
             border: none; cursor: pointer; margin-top: 15px; width: 100%; font-family: 'Noto Serif TC', serif;
+            transition: 0.2s;
         }
         .btn-start:hover { background: var(--gold); color: var(--wood); font-weight: bold; }
+
+        /* 規則清單樣式 */
+        .rules-list { text-align: left; font-size: 1.1rem; line-height: 1.6; color: var(--ink); margin: 20px 0; padding-left: 20px; }
+        .rules-list li { margin-bottom: 15px; }
+        .rules-en { font-size: 0.9rem; color: #666; display: block; margin-top: 3px; }
 
         /* 終極通關文牒專屬特效 */
         #passport-wrap { background: var(--gold); padding: 5px; max-width: 700px; border: 3px solid #8b4513; }
@@ -136,13 +142,48 @@
 
         <div id="start-menu" class="overlay">
             <div class="certificate">
-                <h1 style="color:var(--wood); font-size:3rem; margin:0;">墨跡辨蹤</h1>
-                <p style="color:#666; font-style:italic;">Ink Trace: Character Challenge</p>
-                <div style="margin-top: 30px;">
-                    <button class="btn-start" onclick="initGame(0)">初級：初試鋒芒 (Elementary)</button>
-                    <button class="btn-start" onclick="initGame(1)">中級：略有小成 (Intermediate)</button>
-                    <button class="btn-start" onclick="initGame(2)">高級：登峰造極 (Advanced)</button>
+                
+                <div id="page-1">
+                    <h1 style="color:var(--wood); font-size:3.5rem; margin:0;">慧眼識字</h1>
+                    <p style="color:#666; font-style:italic; margin-bottom: 30px;">Sharp Eyes for Characters</p>
+                    <p style="font-size:1.3rem; line-height:1.8; color:var(--ink); margin-bottom: 40px;">
+                        歡迎來到翰林書院。<br>準備好接受挑戰，考驗你的漢字眼力。
+                    </p>
+                    <button class="btn-start" onclick="showPage(2)">我準備好了 (I'm Ready)</button>
                 </div>
+
+                <div id="page-2" class="hidden">
+                    <h2 style="color:var(--wood); margin-top:0; border-bottom: 2px dashed var(--wood); padding-bottom: 10px;">規則說明 (Rules)</h2>
+                    <ul class="rules-list">
+                        <li>
+                            <b>選擇你的挑戰難度</b>
+                            <span class="rules-en">(Choose your challenge level: Elementary, Intermediate, Advanced)</span>
+                        </li>
+                        <li>
+                            <b>每種難度有 5 個小關卡，共 25 題</b>
+                            <span class="rules-en">(Each level has 5 stages, 25 questions in total)</span>
+                        </li>
+                        <li>
+                            <b>根據句意與英文翻譯，選出正確的漢字</b>
+                            <span class="rules-en">(Select the correct character based on the context)</span>
+                        </li>
+                        <li>
+                            <b>答對可獲印章，集滿即可晉封！</b>
+                            <span class="rules-en">(Collect seals to earn your Imperial Title!)</span>
+                        </li>
+                    </ul>
+                    <button class="btn-start" onclick="showPage(3)">開始挑戰 (Start Challenge)</button>
+                </div>
+
+                <div id="page-3" class="hidden">
+                    <h2 style="color:var(--wood); margin-top:0; margin-bottom: 25px;">選擇挑戰難度</h2>
+                    <div style="display:flex; flex-direction:column; gap:15px;">
+                        <button class="btn-start" onclick="initGame(0)">識字小童 (Apprentice / Elementary)</button>
+                        <button class="btn-start" onclick="initGame(1)">妙筆書生 (Scholar / Intermediate)</button>
+                        <button class="btn-start" onclick="initGame(2)">翰林學士 (Academician / Advanced)</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -245,7 +286,7 @@
             ],
             // 中級 (Tier 1) - 25題
             [
-                { s: "他[ ]然已經走了。", q: "既", o: ["既", "即"], e: "He already left.", p: "jì", d: "既 (Already) vs 即 (Immediately)" },
+                { s: "他[ ]然已經走了，我們就自己出發吧。", q: "既", o: ["既", "即"], e: "Since he has already left, let's set off by ourselves.", p: "jì", d: "既 (Since/Already) vs 即 (Immediately)" },
                 { s: "請[ ]刻出發。", q: "即", o: ["既", "即"], e: "Set off immediately.", p: "jí", d: "即 (Immediately) vs 既 (Already)" },
                 { s: "這是[ ]析問題的好方法。", q: "辨", o: ["辨", "辯"], e: "Way to distinguish problems.", p: "biàn", d: "辨 (Distinguish) vs 辯 (Argue)" },
                 { s: "不要跟我爭[ ]。", q: "辯", o: ["辨", "辯"], e: "Don't argue with me.", p: "biàn", d: "辯 (Argue) vs 辨 (Distinguish)" },
@@ -317,6 +358,14 @@
 
         let state = { tier: 0, stage: 0, qIdx: 0, timer: 0, interval: null };
 
+        // 控制三頁式選單的切換
+        function showPage(pageNum) {
+            document.getElementById('page-1').classList.add('hidden');
+            document.getElementById('page-2').classList.add('hidden');
+            document.getElementById('page-3').classList.add('hidden');
+            document.getElementById('page-' + pageNum).classList.remove('hidden');
+        }
+
         // 啟動遊戲
         function initGame(t) {
             state = { tier: t, stage: 0, qIdx: 0, timer: 0, interval: null };
@@ -326,9 +375,10 @@
             startTimer(); updateUI(); loadQuestion();
         }
 
-        // 回首頁
+        // 回首頁 (直接回到難度選擇頁面 page-3，方便快速重啟)
         function returnToMenu() {
             clearInterval(state.interval);
+            showPage(3);
             document.getElementById('start-menu').classList.remove('hidden');
             document.getElementById('btn-home').classList.add('hidden');
             document.getElementById('promo-overlay').classList.add('hidden');
