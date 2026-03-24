@@ -21,7 +21,7 @@
             display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; 
         }
 
-        /* 主畫板：羊皮紙古風 */
+        /* 主畫板 */
         #game-board {
             position: relative; width: 95vw; max-width: 900px; height: 90vh;
             background: #e8d5b5;
@@ -30,122 +30,62 @@
             display: flex; flex-direction: column; padding: 20px 40px; z-index: 1;
         }
 
-        /* 回首頁按鈕 (木牌造型) */
+        /* 回首頁按鈕 */
         #btn-home { 
             position: absolute; top: 20px; left: -30px; background: var(--wood); color: #fdf5e6; 
             border: 2px solid var(--gold); padding: 12px 8px; writing-mode: vertical-lr; 
             cursor: pointer; font-size: 0.9rem; z-index: 100; letter-spacing: 2px;
             box-shadow: 2px 4px 10px rgba(0,0,0,0.5); transition: 0.2s;
         }
-        #btn-home:hover { transform: scale(1.05); background: #5d4037; }
 
         header { text-align: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px; position: relative; }
         .title { font-size: 2.5rem; margin: 0; color: var(--wood); letter-spacing: 5px; font-weight: 900; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border: 2px solid var(--gold); box-shadow: 0 0 5px rgba(0,0,0,0.3); object-fit: cover; }
+        .header-avatar { width: 50px; height: 50px; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border: 2px solid var(--gold); object-fit: cover; background: white; }
 
         /* 關卡地圖 */
         .stage-map { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
         .stage-node { 
             width: 40px; height: 55px; background: #d2b48c; border: 2px solid var(--wood); 
             display: flex; align-items: center; justify-content: center; font-weight: bold; position: relative;
-            color: var(--wood); transition: 0.3s; box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
         }
         .stage-node.active { background: #fff; box-shadow: 0 0 15px var(--gold); border-color: var(--gold); transform: translateY(-5px); }
-        
-        /* 勝字方印 */
         .stage-node.completed::after { 
-            content: "勝"; 
-            color: var(--seal); 
-            position: absolute; 
-            bottom: -35px; /* 移至方塊正下方 */
-            width: 28px; 
-            height: 28px;
-            border: 2px solid var(--seal); /* 紅色方框 */
-            border-radius: 4px; /* 微圓角 */
-            background: rgba(178, 34, 34, 0.08); /* 模擬印泥底紋 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem; 
-            font-weight: 900;
-            font-family: "DFKai-sb", "BiauKai", "Kaiti", "STKaiti", serif; /* 強制楷體增添印章感 */
-            opacity: 0.9; 
-            transform: rotate(-12deg); /* 微微傾斜的擬真感 */
-            box-shadow: inset 0 0 2px rgba(178,34,34,0.3);
-        }
-
-        /* 每關印章槽 */
-        .status-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; color: #555; }
-        .progress-tray { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; }
-        .stamp-slot { 
-            width: 45px; height: 45px; border: 1px dashed #999; display: flex; 
-            align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; 
+            content: "勝"; color: var(--seal); position: absolute; bottom: -35px; width: 28px; height: 28px;
+            border: 2px solid var(--seal); border-radius: 4px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 900; transform: rotate(-12deg);
         }
 
         /* 題目區 */
         #content-area { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .sentence-cn { font-size: 2.2rem; margin-bottom: 8px; color: var(--ink); position: relative; display: flex; align-items: center; gap: 15px; }
+        .sentence-cn { font-size: 2.2rem; margin-bottom: 8px; color: var(--ink); display: flex; align-items: center; gap: 15px; }
         .sentence-en { font-size: 1.1rem; color: #555; font-style: italic; margin-bottom: 40px; }
-        .blank-space { 
-            display: inline-block; min-width: 60px; border-bottom: 3px solid var(--ink); 
-            color: var(--seal); font-weight: bold; margin: 0 5px; 
-        }
-        .tts-icon { font-size: 1.8rem; cursor: pointer; opacity: 0.6; transition: 0.2s; padding: 5px; }
-        .tts-icon:hover { opacity: 1; transform: scale(1.1); }
+        .blank-space { display: inline-block; min-width: 60px; border-bottom: 3px solid var(--ink); color: var(--seal); font-weight: bold; }
+        .tts-icon { font-size: 1.8rem; cursor: pointer; opacity: 0.6; }
 
         /* 硯台按鈕 */
         .option-container { display: flex; gap: 30px; }
         .inkstone-btn {
             width: 100px; height: 100px; background: radial-gradient(circle at 30% 30%, #444, #111);
             color: #eee; border-radius: 10% 10% 45% 45%; font-size: 2.2rem; cursor: pointer; border: none;
-            box-shadow: 4px 8px 15px rgba(0,0,0,0.6); transition: 0.2s; display: flex; align-items: center; justify-content: center;
+            box-shadow: 4px 8px 15px rgba(0,0,0,0.6); transition: 0.2s;
         }
-        .inkstone-btn:hover { transform: translateY(-5px) scale(1.05); }
 
-        /* 全螢幕彈窗 */
-        .overlay { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000; 
-        }
-        .certificate { 
-            background: #fdf5e6; padding: 40px; border: 12px double var(--wood); 
-            text-align: center; width: 90%; max-width: 600px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-        }
-        .btn-start { 
-            background: var(--wood); color: white; padding: 12px 20px; font-size: 1.1rem; 
-            border: none; cursor: pointer; margin-top: 15px; width: 100%; font-family: 'Noto Serif TC', serif;
-            transition: 0.2s;
-        }
-        .btn-start:hover { background: var(--gold); color: var(--wood); font-weight: bold; }
-
-        /* 規則清單樣式 */
-        .rules-list { text-align: left; font-size: 1.1rem; line-height: 1.6; color: var(--ink); margin: 20px 0; padding-left: 20px; }
-        .rules-list li { margin-bottom: 15px; }
-        .rules-en { font-size: 0.9rem; color: #666; display: block; margin-top: 3px; }
-
-        /* 高級身份選擇按鈕視覺 (加入圖片整合) */
-        .level-select-container { display:flex; flex-direction:column; gap:15px; max-width:480px; margin:0 auto; }
+        /* 選單與彈窗 */
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .certificate { background: #fdf5e6; padding: 40px; border: 12px double var(--wood); text-align: center; width: 90%; max-width: 600px; }
+        
+        /* 難度選擇按鈕 */
         .level-btn {
-            display: flex; align-items: center; gap: 20px; text-align: left; padding: 15px 25px;
-            background: #fff; border: 3px solid var(--wood); cursor: pointer; transition: 0.2s;
-            width: 100%; font-family: 'Noto Serif TC', serif; position: relative; overflow: hidden;
+            display: flex; align-items: center; gap: 20px; text-align: left; padding: 12px 20px;
+            background: #fff; border: 3px solid var(--wood); cursor: pointer; margin-bottom: 12px; width: 100%;
         }
-        .level-btn:hover { border-color: var(--gold); background: #fdf5e6; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
-        .level-btn img { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; }
-        .level-title { font-size: 1.6rem; color: var(--wood); font-weight: 900; }
-        .level-desc { font-size: 0.9rem; color: #666; font-style: italic; }
+        .level-btn img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
+        .level-title { font-size: 1.5rem; color: var(--wood); font-weight: 900; }
 
-        /* 終極通關文牒專屬特效 */
-        #passport-wrap { background: var(--gold); padding: 5px; max-width: 700px; border: 3px solid #8b4513; }
-        #dust-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
         .final-seals { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
         .seal-small { width: 50px; height: 50px; border: 2px solid var(--seal); color: var(--seal); font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transform: rotate(-10deg); }
-        .seal-giant { 
-            margin: 20px auto 0; width: 120px; height: 120px; border: 5px solid var(--seal); color: var(--seal); 
-            font-size: 2.5rem; font-weight: 900; display: flex; align-items: center; justify-content: center; 
-            transform: scale(5); opacity: 0; animation: slam 0.5s 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes slam { to { transform: scale(1) rotate(-5deg); opacity: 1; } }
+        .seal-giant { margin: 20px auto 0; width: 120px; height: 120px; border: 5px solid var(--seal); color: var(--seal); font-size: 2.5rem; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 0; animation: slam 0.5s 1s forwards; }
+        @keyframes slam { from { transform: scale(5); opacity: 0; } to { transform: scale(1) rotate(-5deg); opacity: 1; } }
 
         .hidden { display: none !important; }
     </style>
@@ -157,81 +97,49 @@
 
         <div id="start-menu" class="overlay">
             <div class="certificate">
-                
                 <div id="page-1">
-                    <h1 style="color:var(--wood); font-size:3.5rem; margin:0;">慧眼識字</h1>
-                    <p style="color:#666; font-style:italic; margin-bottom: 30px;">Sharp Eyes for Characters</p>
-                    <p style="font-size:1.3rem; line-height:1.8; color:var(--ink); margin-bottom: 40px;">
-                        歡迎來到翰林書院。<br>
-                        *(Welcome to the Hanlin Academy.)*<br><br>
-                        準備好接受挑戰，考驗你的漢字眼力。<br>
-                        *(Ready to take the challenge and test your sharp eyes for characters.)*
-                    </p>
+                    <h1 style="color:var(--wood); font-size:3rem; margin:0;">慧眼識字</h1>
+                    <p style="color:#666; font-style:italic; margin-bottom:20px;">Sharp Eyes for Characters</p>
+                    <p style="font-size:1.2rem; line-height:1.6;">歡迎來到翰林書院。<br>準備好接受挑戰，考驗你的漢字眼力。<br><small>(Welcome to the Hanlin Academy. Ready to take the challenge?)</small></p>
                     <button class="btn-start" onclick="showPage(2)">我準備好了 (I'm Ready)</button>
                 </div>
 
                 <div id="page-2" class="hidden">
-                    <h2 style="color:var(--wood); margin-top:0; border-bottom: 2px dashed var(--wood); padding-bottom: 10px;">規則說明 (Rules)</h2>
+                    <h2 style="color:var(--wood)">規則說明 (Rules)</h2>
                     <ul class="rules-list">
-                        <li>
-                            <b>選擇你的挑戰難度</b>
-                            <span class="rules-en">(Choose your challenge level: Elementary, Intermediate, Advanced)</span>
-                        </li>
-                        <li>
-                            <b>每種難度有 5 個小關卡，共 25 題</b>
-                            <span class="rules-en">(Each level has 5 stages, 25 questions in total)</span>
-                        </li>
-                        <li>
-                            <b>根據聽到的句子與英文翻譯，選出正確的漢字</b>
-                            <span class="rules-en">(Select the correct character based on the audio and context)</span>
-                        </li>
-                        <li>
-                            <b>答對可獲印章，集滿即可晉封！</b>
-                            <span class="rules-en">(Collect seals to earn your Imperial Title!)</span>
-                        </li>
+                        <li>選擇你的挑戰難度 <small>(Choose your challenge level)</small></li>
+                        <li>每種難度有 5 個小關卡，共 25 題 <small>(5 stages, 25 trials total)</small></li>
+                        <li>聽句子，從硯台中選出正確漢字 <small>(Listen and pick the correct character)</small></li>
+                        <li>集滿印章即可晉封！ <small>(Collect seals to earn your title!)</small></li>
                     </ul>
-                    <button class="btn-start" onclick="showPage(3)">開始挑戰 (Start Challenge)</button>
+                    <button class="btn-start" onclick="showPage(3)">開始挑戰 (Start)</button>
                 </div>
 
                 <div id="page-3" class="hidden">
-                    <h2 style="color:var(--wood); margin-top:0; margin-bottom: 25px;">選擇挑戰難度</h2>
-                    <div class="level-select-container">
-                        <button class="level-btn" onclick="initGame(0)">
-                            <img src="" id="level-img-kid" alt="Kid">
-                            <div>
-                                <div class="level-title">識字小童</div>
-                                <div class="level-desc">Apprentice / Elementary</div>
-                            </div>
-                        </button>
-                        <button class="level-btn" onclick="initGame(1)">
-                            <img src="" id="level-img-scholar" alt="Scholar">
-                            <div>
-                                <div class="level-title">妙筆書生</div>
-                                <div class="level-desc">Scholar / Intermediate</div>
-                            </div>
-                        </button>
-                        <button class="level-btn" onclick="initGame(2)">
-                            <img src="" id="level-img-academician" alt="Academician">
-                            <div>
-                                <div class="level-title">翰林學士</div>
-                                <div class="level-desc">Academician / Advanced</div>
-                            </div>
-                        </button>
-                    </div>
+                    <h2 style="color:var(--wood)">選擇身份進入修煉</h2>
+                    <button class="level-btn" onclick="initGame(0)">
+                        <img src="翰林學士.png" alt="小童">
+                        <div><div class="level-title">識字小童</div><small>Apprentice</small></div>
+                    </button>
+                    <button class="level-btn" onclick="initGame(1)">
+                        <img src="妙筆書生.png" alt="書生">
+                        <div><div class="level-title">妙筆書生</div><small>Scholar</small></div>
+                    </button>
+                    <button class="level-btn" onclick="initGame(2)">
+                        <img src="Gemini_Generated_Image_utfkb8utfkb8utfk.png" alt="學士">
+                        <div><div class="level-title">翰林學士</div><small>Academician</small></div>
+                    </button>
                 </div>
-
             </div>
         </div>
 
         <header>
-            <img src="" id="game-header-avatar" class="avatar hidden" alt="Avatar">
+            <img src="" id="header-avatar" class="header-avatar hidden">
             <h1 id="rank-title" class="title">識字小童</h1>
         </header>
 
         <div class="stage-map" id="stage-map">
-            <div class="stage-node">壹</div><div class="stage-node">貳</div>
-            <div class="stage-node">參</div><div class="stage-node">肆</div>
-            <div class="stage-node">伍</div>
+            <div class="stage-node">壹</div><div class="stage-node">貳</div><div class="stage-node">參</div><div class="stage-node">肆</div><div class="stage-node">伍</div>
         </div>
 
         <div class="status-row">
@@ -245,8 +153,8 @@
 
         <div id="content-area">
             <div class="sentence-cn">
-                <span id="sentence-cn-text"></span>
-                <span id="tts-icon-box" class="tts-icon" title="重聽題目">🔊</span>
+                <span id="sentence-text"></span>
+                <span class="tts-icon" onclick="playQuestionAudio()">🔊</span>
             </div>
             <div id="sentence-en" class="sentence-en"></div>
             <div id="options" class="option-container"></div>
@@ -254,100 +162,263 @@
 
         <div id="error-overlay" class="overlay hidden">
             <div class="certificate" style="border-color:var(--seal); max-width:400px;">
-                <h2 style="color:var(--seal); margin-top:0;">辨析錯誤</h2>
-                <div id="error-details" style="text-align:left; font-size:1.1rem; line-height:1.6; margin: 20px 0;"></div>
+                <h2 style="color:var(--seal)">辨析錯誤</h2>
+                <div id="error-details" style="text-align:left; margin: 20px 0;"></div>
                 <button class="btn-start" style="background:var(--seal);" onclick="hideError()">繼續嘗試</button>
             </div>
         </div>
 
         <div id="promo-overlay" class="overlay hidden">
             <div class="certificate">
-                <img src="" id="promo-img" style="width:140px; height:140px; border-radius:50%; border:5px solid var(--gold); margin-bottom:20px; object-fit: cover;" alt="Promo">
-                <h2 style="color:var(--wood); margin-top:0;">成就達成證明</h2>
-                <h1 id="promo-title" style="font-size:2.8rem; color:var(--seal); margin:10px 0;">妙筆書生</h1>
+                <img src="" id="promo-img" style="width:120px; height:120px; border-radius:50%; border:4px solid var(--gold); object-fit:cover;">
+                <h2 style="color:var(--wood)">成就達成證明</h2>
+                <h1 id="promo-title" style="color:var(--seal)"></h1>
                 <p id="promo-desc"></p>
-                <button class="btn-start" onclick="nextTier()">接受晉封 (Next Level)</button>
+                <button class="btn-start" onclick="nextTier()">接受晉封</button>
             </div>
         </div>
 
         <div id="ultimate-overlay" class="overlay hidden">
             <div class="certificate" id="passport-wrap">
-                <div style="background:#fff; padding:40px; position:relative; overflow:hidden;">
+                <div style="background:#fff; padding:40px; position:relative;">
                     <canvas id="dust-canvas"></canvas>
-                    <img src="" id="ultimate-passport-img" style="width:160px; height:160px; border-radius:50%; border:6px solid var(--gold); margin-bottom:25px; object-fit: cover;" alt="Academician">
-                    <h1 style="color:var(--wood); border-bottom:3px double var(--gold); margin:0 0 20px 0; font-size:2.5rem;">通關文牒</h1>
-                    <div style="font-size:1.3rem; line-height:1.8;">
-                        <b>才高八斗，學富五車。</b><br>
-                        爾於漢字相似字之修煉，已達登峰造極之境。<br>
-                        <span style="font-size:1rem; color:#666; font-style:italic;">Possessing immense talent. Your mastery of Chinese characters has reached the pinnacle of perfection.</span>
-                    </div>
-                    <div class="final-seals">
-                        <div class="seal-small">準</div><div class="seal-small">精</div><div class="seal-small">神</div>
-                    </div>
+                    <img src="Gemini_Generated_Image_utfkb8utfkb8utfk.png" style="width:150px; height:150px; border-radius:50%; border:5px solid var(--gold); object-fit:cover;">
+                    <h1 style="color:var(--wood); border-bottom:3px double var(--gold);">通關文牒</h1>
+                    <p><b>才高八斗，學富五車。</b><br>爾於漢字相似字之修煉，已達登峰造極之境。</p>
+                    <div class="final-seals"><div class="seal-small">準</div><div class="seal-small">精</div><div class="seal-small">神</div></div>
                     <div class="seal-giant">博學</div>
-                    <button class="btn-start" style="margin-top:40px;" onclick="location.reload()">截圖留念並返回首頁</button>
+                    <button class="btn-start" onclick="location.reload()">截圖留念並返回首頁</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --------------------------------------------------
-        // [重要] 圖片 Base64 編碼常數 (已經從您的圖片生成)
-        // --------------------------------------------------
-        // 識字小童 (Gemini_Generated_Image_utfkb8utfkb8utfk.png)
-        const Kid_Base64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAQAAADM/vdaAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmDgYIFgFmAWYBAAAACXBIWXMAAAsTAAALEwEAmpwYAAA5nElEQVR42uzdB3xcZ4Hv/9+RerN6U5Ut2XJJttzR4p57wwmBhBJYyAbSdxdy9w7szvL2ttzdfXe3YTeFEHoMvffee3HHHXe5bcmSrepdzbZRo/v974wZSaYkk2fOKCPrfX7Gg0wzZ8575tTz//v//6CgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoV「ハッピーホームセット」と題して、ハッピーセット（ハンバーガー、ポテト、ドリンクのセット）が運ばれる。また、トレイは、黄色を基調としたおなじみのマクドナルドのトレイではなく、赤地に「映画お母さんといっしょ」のロゴが全面に入っている仕様となっている。トレイマットも映画仕様だ。
+        const IMG_PATHS = ["翰林學士.png", "妙筆書生.png", "Gemini_Generated_Image_utfkb8utfkb8utfk.png"];
+        const DATABASE = [
+            // 初級
+            [
+                { s: "今天天氣很[ ]朗。", q: "晴", o: ["晴", "請"], e: "The weather is very sunny today.", p: "qíng", d: "晴 (Sunny) vs 請 (Please)" },
+                { s: "[ ]坐下來喝杯茶。", q: "請", o: ["情", "請"], e: "Please sit down and have tea.", p: "qǐng", d: "請 (Please) vs 情 (Feeling)" },
+                { s: "這件事[ ]非常複雜。", q: "情", o: ["情", "清"], e: "The situation is very complicated.", p: "qíng", d: "情 (Situation) vs 清 (Clear)" },
+                { s: "小河的水很[ ]澈。", q: "清", o: ["清", "請"], e: "The creek water is very clear.", p: "qīng", d: "清 (Clear) vs 請 (Please)" },
+                { s: "媽媽去市[ ]買菜。", q: "場", o: ["場", "湯"], e: "Mom went to the market.", p: "chǎng", d: "場 (Market) vs 湯 (Soup)" },
+                { s: "這碗蔬菜[ ]很好喝。", q: "湯", o: ["湯", "場"], e: "This soup is delicious.", p: "tāng", d: "湯 (Soup) vs 場 (Field)" },
+                { s: "這隻[ ]跑得飛快。", q: "馬", o: ["馬", "媽"], e: "This horse runs fast.", p: "mǎ", d: "馬 (Horse) vs 媽 (Mother)" },
+                { s: "我的[ ]媽辛苦了。", q: "媽", o: ["馬", "媽"], e: "My mother worked hard.", p: "mā", d: "媽 (Mother) vs 馬 (Horse)" },
+                { s: "他在本子上[ ]字。", q: "寫", o: ["寫", "謝"], e: "He is writing characters.", p: "xiě", d: "寫 (Write) vs 謝 (Thank)" },
+                { s: "非常感[ ]你的幫忙。", q: "謝", o: ["寫", "謝"], e: "Thank you very much for helping.", p: "xiè", d: "謝 (Thank) vs 寫 (Write)" },
+                { s: "大家[ ]很努力。", q: "都", o: ["都", "部"], e: "Everyone is working very hard.", p: "dōu", d: "都 (All) vs 部 (Part)" },
+                { s: "這是一[ ]好電影。", q: "部", o: ["部", "都"], e: "This is a good movie.", p: "bù", d: "部 (Unit) vs 都 (All)" },
+                { s: "這條路很[ ]。", q: "直", o: ["真", "直"], e: "This road is straight.", p: "zhí", d: "直 (Straight) vs 真 (True)" },
+                { s: "這本書[ ]有趣。", q: "真", o: ["真", "直"], e: "This book is truly interesting.", p: "zhēn", d: "真 (True) vs 直 (Straight)" },
+                { s: "不要一直[ ]著我看。", q: "盯", o: ["盯", "釘"], e: "Don't keep staring at me.", p: "dīng", d: "盯 (Stare) vs 釘 (Nail)" },
+                { s: "牆上有根鐵[ ]。", q: "釘", o: ["盯", "釘"], e: "There is a nail on the wall.", p: "dīng", d: "釘 (Nail) vs 盯 (Stare)" },
+                { s: "太陽從東方升[ ]。", q: "起", o: ["起", "趕"], e: "The sun rises from the east.", p: "qǐ", d: "起 (Rise) vs 趕 (Hurry)" },
+                { s: "我要[ ]快去學校。", q: "趕", o: ["起", "趕"], e: "I need to hurry to school.", p: "gǎn", d: "趕 (Hurry) vs 起 (Rise)" },
+                { s: "妹妹喜歡喝[ ]奶。", q: "牛", o: ["牛", "午"], e: "Sister likes cow milk.", p: "niú", d: "牛 (Cow) vs 午 (Noon)" },
+                { s: "我們中[ ]見面吧。", q: "午", o: ["牛", "午"], e: "Let's meet at noon.", p: "wǔ", d: "午 (Noon) vs 牛 (Cow)" },
+                { s: "請把門關[ ]。", q: "上", o: ["上", "下"], e: "Please close the door.", p: "shàng", d: "上 (Up) vs 下 (Down)" },
+                { s: "樹[ ]有很多螞蟻。", q: "下", o: ["上", "下"], e: "Ants are under the tree.", p: "xià", d: "下 (Down) vs 上 (Up)" },
+                { s: "這件衣服很乾[ ]。", q: "淨", o: ["淨", "爭"], e: "Clothing is very clean.", p: "jìng", d: "淨 (Clean) vs 爭 (Strive)" },
+                { s: "這是一個好[ ]法。", q: "方", o: ["放", "方"], e: "This is a good method.", p: "fāng", d: "方 (Method) vs 放 (Put)" },
+                { s: "請把書[ ]回桌上。", q: "放", o: ["放", "方"], e: "Put the book on the table.", p: "fàng", d: "放 (Put) vs 方 (Method)" }
+            ],
+            // 中級
+            [
+                { s: "他[ ]然已經走了，我們就自己出發吧。", q: "既", o: ["既", "即"], e: "Since he has already left, let's set off by ourselves.", p: "jì", d: "既 (Since/Already) vs 即 (Immediately)" },
+                { s: "請[ ]刻出發。", q: "即", o: ["既", "即"], e: "Set off immediately.", p: "jí", d: "即 (Immediately) vs 既 (Already)" },
+                { s: "這是[ ]析問題的好方法。", q: "辨", o: ["辨", "辯"], e: "Way to distinguish problems.", p: "biàn", d: "辨 (Distinguish) vs 辯 (Argue)" },
+                { s: "不要跟我爭[ ]。", q: "辯", o: ["辨", "辯"], e: "Don't argue with me.", p: "biàn", d: "辯 (Argue) vs 辨 (Distinguish)" },
+                { s: "這件事[ ]須處理。", q: "必", o: ["必", "畢"], e: "Must handle this.", p: "bì", d: "必 (Must) vs 畢 (Finish)" },
+                { s: "他在大學[ ]業了。", q: "畢", o: ["必", "畢"], e: "He graduated university.", p: "bì", d: "畢 (Finish) vs 必 (Must)" },
+                { s: "我[ ]經做完了。", q: "已", o: ["已", "己"], e: "I have already finished.", p: "yǐ", d: "已 (Already) vs 己 (Self)" },
+                { s: "不要迷失自[ ]。", q: "己", o: ["已", "己"], e: "Don't lose yourself.", p: "jǐ", d: "己 (Self) vs 已 (Already)" },
+                { s: "這是一個採[ ]節目。", q: "訪", o: ["訪", "放"], e: "This is an interview program.", p: "fǎng", d: "訪 (Interview) vs 放 (Put)" },
+                { s: "這份報[ ]很準確。", q: "導", o: ["導", "道"], e: "This report is accurate.", p: "dǎo", d: "導 (Guide/Report) vs 道 (Road)" },
+                { s: "這條[ ]路很長。", q: "道", o: ["導", "道"], e: "This road is long.", p: "dào", d: "道 (Road) vs 導 (Guide)" },
+                { s: "他[ ]得這件事。", q: "記", o: ["記", "計"], e: "He remembers this matter.", p: "jì", d: "記 (Remember) vs 計 (Plan)" },
+                { s: "這是一個好[ ]策。", q: "計", o: ["記", "計"], e: "This is a good plan.", p: "jì", d: "計 (Plan) vs 記 (Remember)" },
+                { s: "你[ ]該去睡覺了。", q: "應", o: ["應", "因"], e: "You should go to sleep.", p: "yīng", d: "應 (Should) vs 因 (Because)" },
+                { s: "[ ]為下雨所以沒去。", q: "因", o: ["應", "因"], e: "Didn't go because of rain.", p: "yīn", d: "因 (Because) vs 應 (Should)" },
+                { s: "這件商品物超所[ ]。", q: "值", o: ["值", "置"], e: "Item is worth the price.", p: "zhí", d: "值 (Value) vs 置 (Place)" },
+                { s: "請安[ ]好行李。", q: "置", o: ["值", "置"], e: "Please place your luggage.", p: "zhì", d: "置 (Place) vs 值 (Value)" },
+                { s: "他在考[ ]中拿高分。", q: "試", o: ["試", "式"], e: "Got high score on test.", p: "shì", d: "試 (Test) vs 式 (Style)" },
+                { s: "這是一種新的方[ ]。", q: "式", o: ["試", "式"], e: "This is a new style.", p: "shì", d: "式 (Style) vs 試 (Test)" },
+                { s: "請保持安[ ]。", q: "靜", o: ["靜", "淨"], e: "Please keep quiet.", p: "jìng", d: "靜 (Quiet) vs 淨 (Clean)" },
+                { s: "這是一份[ ]單。", q: "菜", o: ["菜", "采"], e: "This is a menu.", p: "cài", d: "菜 (Dish) vs 采 (Spirit)" },
+                { s: "豐富多[ ]的生活。", q: "采", o: ["菜", "采"], e: "Colorful life.", p: "cǎi", d: "采 (Spirit) vs 菜 (Dish)" },
+                { s: "馬路上堵[ ]了。", q: "塞", o: ["賽", "塞"], e: "Road is congested.", p: "sāi", d: "塞 (Block) vs 賽 (Race)" },
+                { s: "這場比[ ]很精彩。", q: "賽", o: ["賽", "塞"], e: "This match is exciting.", p: "sài", d: "賽 (Race) vs 塞 (Block)" },
+                { s: "他很乖很聽話。", q: "乖", o: ["乖", "乘"], e: "He is very well-behaved and obedient.", p: "guāi", d: "乖 (Behave) vs 乘 (Ride)" }
+            ],
+            // 高級
+            [
+                { s: "軍隊正在[ ]署。", q: "部", o: ["部", "佈"], e: "Army is deploying.", p: "bù", d: "部 (Deploy) vs 佈 (Spread)" },
+                { s: "今年是戊[ ]年。", q: "戌", o: ["戊", "戌"], e: "It is the Wu-Xu year.", p: "xū", d: "戌 (11th Branch) vs 戊 (5th Stem)" },
+                { s: "他在場上拚[ ]。", q: "搏", o: ["搏", "博"], e: "Fighting on the field.", p: "bó", d: "搏 (Fight) vs 博 (Abundant)" },
+                { s: "他學識淵[ ]。", q: "博", o: ["搏", "博"], e: "Vast knowledge.", p: "bó", d: "博 (Abundant) vs 搏 (Fight)" },
+                { s: "秋天的天氣很乾[ ]。", q: "燥", o: ["燥", "躁"], e: "The weather in autumn is very dry.", p: "zào", d: "燥 (Dry) vs 躁 (Impatient)" },
+                { s: "他最近脾氣有點暴[ ]。", q: "躁", o: ["燥", "躁"], e: "He has been a bit hot-tempered recently.", p: "zào", d: "躁 (Impatient) vs 燥 (Dry)" },
+                { s: "請不要[ ]慢職責。", q: "怠", o: ["怠", "抬"], e: "Do not neglect duties.", p: "dài", d: "怠 (Neglect) vs 抬 (Lift)" },
+                { s: "請把頭[ ]起來。", q: "抬", o: ["怠", "抬"], e: "Please lift your head.", p: "tái", d: "抬 (Lift) vs 怠 (Neglect)" },
+                { s: "他在經[ ]一家公司。", q: "營", o: ["螢", "營"], e: "He manages a company.", p: "yíng", d: "營 (Manage) vs 螢 (Firefly)" },
+                { s: "夏夜有[ ]火蟲。", q: "螢", o: ["螢", "營"], e: "Fireflies in summer night.", p: "yíng", d: "螢 (Firefly) vs 營 (Manage)" },
+                { s: "這是一場盛[ ]。", q: "宴", o: ["宴", "晏"], e: "This is a grand feast.", p: "yàn", d: "宴 (Feast) vs 晏 (Late/Peace)" },
+                { s: "她害羞得[ ]都紅了。", q: "臉", o: ["險", "臉"], e: "She was so shy that her face turned red.", p: "liǎn", d: "臉 (Face) vs 險 (Danger)" },
+                { s: "我們[ ]車去旅行。", q: "乘", o: ["乖", "乘"], e: "We took a ride to travel.", p: "chéng", d: "乘 (Ride) vs 乖 (Behave)" },
+                { s: "他在發[ ]。", q: "呆", o: ["呆", "杏"], e: "He is in a daze.", p: "dāi", d: "呆 (Daze) vs 杏 (Apricot)" },
+                { s: "這是一棵[ ]樹。", q: "杏", o: ["呆", "杏"], e: "This is an apricot tree.", p: "xìng", d: "杏 (Apricot) vs 呆 (Daze)" },
+                { s: "這件事很[ ]手。", q: "棘", o: ["棘", "辣"], e: "This matter is thorny.", p: "jí", d: "棘 (Thorny) vs 辣 (Spicy)" },
+                { s: "這道菜很[ ]。", q: "辣", o: ["棘", "辣"], e: "This dish is spicy.", p: "là", d: "辣 (Spicy) vs 棘 (Thorny)" },
+                { s: "情況非常危[ ]。", q: "險", o: ["險", "臉"], e: "Situation is dangerous.", p: "xiǎn", d: "險 (Danger) vs 臉 (Face)" },
+                { s: "他[ ]奏鋼琴。", q: "彈", o: ["憚", "彈"], e: "Playing the piano.", p: "tán", d: "彈 (Play) vs 憚 (Dread)" },
+                { s: "做事不可肆無忌[ ]。", q: "憚", o: ["憚", "彈"], e: "Do not act without scruples.", p: "dàn", d: "憚 (Dread) vs 彈 (Play)" },
+                { s: "他在[ ]壁辦公。", q: "隔", o: ["隔", "融"], e: "He works next door.", p: "gé", d: "隔 (Separate) vs 融 (Blend)" },
+                { s: "兩國文化[ ]合。", q: "融", o: ["隔", "融"], e: "Cultures blend.", p: "róng", d: "融 (Blend) vs 隔 (Separate)" },
+                { s: "這封信被[ ]回了。", q: "退", o: ["退", "腿"], e: "Letter was returned.", p: "tuì", d: "退 (Return) vs 腿 (Leg)" },
+                { s: "我的[ ]很酸。", q: "腿", o: ["退", "腿"], e: "My legs are sore.", p: "tuǐ", d: "腿 (Leg) vs 退 (Return)" },
+                { s: "大家紛紛[ ]薦他。", q: "推", o: ["推", "堆"], e: "People recommended him.", p: "tuī", d: "推 (Push/Recommend) vs 堆 (Pile)" }
+            ]
+        ];
 
-<strong>賀来：</strong>おー、すごい！　トレイマットが映画のデザイン！
+        const RANKS = [
+            { name: "識字小童", seal: "準", desc: "辨析精確，初顯才華", img: "翰林學士.png" },
+            { name: "妙筆書生", seal: "精", desc: "筆墨流暢，略有小成", img: "妙筆書生.png" },
+            { name: "翰林學士", seal: "神", desc: "登峰造極，識見不凡", img: "Gemini_Generated_Image_utfkb8utfkb8utfk.png" }
+        ];
 
-<strong>横山：</strong>すごい、トレイマットも映画仕様になってます。しかもこれ、クイズになってるよ。
+        let state = { tier: 0, stage: 0, qIdx: 0, timer: 0, interval: null };
+        const tts = window.speechSynthesis;
+        let ttsUtterance = new SpeechSynthesisUtterance();
+        ttsUtterance.lang = 'zh-TW'; ttsUtterance.rate = 0.9;
 
-<strong>賀来：</strong>（トレイマットを見ながら）あ、ほんとだ。間違い探しだ！
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
 
-<strong>横山：</strong>そしてこれが「ハッピーホームセット」です。
+        function speak(text) { if(tts) { tts.cancel(); ttsUtterance.text = text; tts.speak(ttsUtterance); } }
 
-<strong>賀来：</strong>すごーい！
+        function showPage(n) {
+            document.querySelectorAll('#start-menu > .certificate > div').forEach(d => d.classList.add('hidden'));
+            document.getElementById('page-' + n).classList.remove('hidden');
+        }
 
-<strong>横山：</strong>映画オリジナルの、特別なパッケージに入っています。
+        function initGame(t) {
+            state = { tier: t, stage: 0, qIdx: 0, timer: 0, interval: null };
+            document.getElementById('start-menu').classList.add('hidden');
+            document.getElementById('btn-home').classList.remove('hidden');
+            document.getElementById('rank-title').innerText = RANKS[t].name;
+            const avatar = document.getElementById('game-header-avatar');
+            avatar.src = RANKS[t].img; avatar.classList.remove('hidden');
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            startTimer(); updateUI(); loadQuestion();
+        }
 
-<strong>賀来：</strong>嬉しい！　これだけで嬉しいよね。
+        function returnToMenu() {
+            clearInterval(state.interval); tts.cancel();
+            showPage(3); document.getElementById('start-menu').classList.remove('hidden');
+            document.getElementById('btn-home').classList.add('hidden');
+            document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+            document.getElementById('start-menu').classList.remove('hidden');
+        }
 
-<strong>「ハッピーホームセット」のパッケージは、映画オリジナルデザイン。表面には、お兄さんお姉さんや、チョロミー、ムームー、ガラピコたちが元気にポーズをキメており、裏面は、ぬりえができる仕様になっている。</strong>
+        function startTimer() {
+            if (state.interval) clearInterval(state.interval);
+            state.interval = setInterval(() => { state.timer++; document.getElementById('timer-text').innerText = `耗時：${state.timer}s`; }, 1000);
+        }
 
-<strong>横山：</strong>さらに、この映画オリジナルの「おでかけトートバッグ」も付いてきます。
+        function updateUI() {
+            const nodes = document.querySelectorAll('.stage-node');
+            nodes.forEach((n, i) => {
+                n.className = 'stage-node' + (i === state.stage ? ' active' : '') + (i < state.stage ? ' completed' : '');
+            });
+            document.getElementById('stage-text').innerText = `關卡：${state.stage + 1} / 5`;
+            const slots = document.querySelectorAll('.stamp-slot');
+            slots.forEach((s, i) => {
+                if (i < state.qIdx) {
+                    s.style.background = "rgba(178,34,34,0.1)"; s.style.border = "2px solid var(--seal)";
+                    s.style.color = "var(--seal)"; s.innerText = RANKS[state.tier].seal;
+                } else { s.style.background = "transparent"; s.style.border = "1px dashed #999"; s.innerText = ""; }
+            });
+        }
 
-<strong>賀來：</strong>きゃあ、可愛い～!!
+        function loadQuestion() {
+            const data = DATABASE[state.tier][(state.stage * 5) + state.qIdx];
+            document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">?</span>`);
+            document.getElementById('sentence-en').innerText = data.e;
+            const fullText = data.s.replace("[ ]", data.q);
+            speak(fullText); // 進入頁面即播放完整句子
+            document.getElementById('tts-icon-box').onclick = () => speak(fullCorrectText);
+            const optBox = document.getElementById('options'); optBox.innerHTML = "";
+            [...data.o].sort(() => Math.random() - 0.5).forEach(opt => {
+                const btn = document.createElement('button'); btn.className = 'inkstone-btn'; btn.innerText = opt;
+                btn.onclick = () => handleAnswer(opt, data); optBox.appendChild(btn);
+            });
+        }
 
-<strong>横山：</strong>これは、お兄さんお姉さんのイラストが入った、特別デザインのトートバッグです。おでかけにぴったりなサイズですよ。
+        function handleAnswer(ans, data) {
+            if (ans === data.q) {
+                playCorrectSound();
+                document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">${data.q}</span>`);
+                setTimeout(() => {
+                    state.qIdx++; updateUI();
+                    if (state.qIdx >= 5) finishStage(); else loadQuestion();
+                }, 800);
+            } else { showError(data); }
+        }
 
-<strong>賀來：</strong>（トートバッグを手に取り）すごい！　これ、お兄さんお姉さんのイラストがすごく可愛い！　しかも、ちゃんと「お母さんといっしょ」ってロゴも入ってる。
+        function showError(d) {
+            document.getElementById('error-details').innerHTML = `<p>正確漢字：<b style="color:var(--seal); font-size:2rem;">${d.q}</b></p><p>拼音：<b>${d.p}</b></p><p style="border-top:1px dashed #ccc; padding-top:10px;">辨析：${d.d}</p>`;
+            document.getElementById('error-overlay').classList.remove('hidden');
+        }
+        function hideError() { document.getElementById('error-overlay').classList.add('hidden'); }
 
-<strong>横山：</strong>そして、もう一つ。この「映画お母さんといっしょ」の、オリジナルシールも付いています。
+        function finishStage() {
+            state.stage++; state.qIdx = 0;
+            if (state.stage >= 5) {
+                if (state.tier === 2) triggerUltimate(); else triggerPromo();
+            } else { updateUI(); loadQuestion(); }
+        }
 
-<strong>賀來：</strong>（シールを手に取り）わあ、これも可愛い！　いろんなキャラクターが勢揃いしてる！
+        function triggerPromo() {
+            const nextRank = RANKS[state.tier + 1];
+            document.getElementById('promo-img').src = nextRank.img;
+            document.getElementById('promo-title').innerText = nextRank.name;
+            document.getElementById('promo-desc').innerText = nextRank.desc;
+            document.getElementById('promo-overlay').classList.remove('hidden');
+        }
 
-<strong>横山：</strong>このセット、これだけ豪華な特典が付いて、お値段はなんと…
+        function nextTier() { document.getElementById('promo-overlay').classList.add('hidden'); initGame(state.tier + 1); }
 
-<strong>賀來：</strong>（ドキドキしながら）いくらですか…？
+        function triggerUltimate() {
+            document.getElementById('ultimate-passport-img').src = RANKS[2].img;
+            document.getElementById('ultimate-overlay').classList.remove('hidden');
+            initGoldDust();
+        }
 
-<strong>横山：</strong>（満面の笑みで）通常のハッピーセットと同じ価格です！
-
-<strong>賀來：</strong>（驚きの表情で）ええーっ！　それは凄すぎる！
-
-<strong>横山：</strong>（誇らしげに）はい！　お兄さんお姉さんのイラスト入りトートバッグ、オリジナルシール、そしてこの特別なパッケージ。これら全てが、通常のハッピーセットと同じ価格で楽しめちゃうんです。
-
-<strong>賀來：</strong>（興奮気味に）それは本当に凄すぎる！　絶対みんな買うべきだよ！
-
-<strong>横山：</strong>（笑顔で）はい！　ぜひ「ハッピーホームセット」を食べて、映画も楽しんでくださいね。
-
-<strong>賀來：</strong>（笑顔で）はい！　もちろんです！
-
-<strong>横山：</strong>（笑顔で）それでは、今回は「映画お母さんといっしょ」の「ハッピーホームセット」をご紹介しました。
-
-<strong>賀來：</strong>（笑顔で）ありがとうございました！
-
-<strong>横山：</strong>（笑顔で）さようなら！
-
-<strong>賀來：</strong>（笑顔で）さようなら！
-
-<strong>(画面は、二人が笑顔で手を振っている姿で終了)</strong>
+        function initGoldDust() {
+            const canvas = document.getElementById('dust-canvas'); const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+            let p = Array(60).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*4+1, v: Math.random()*2+0.5 }));
+            function d() {
+                ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(212,175,55,0.7)";
+                p.forEach(i => { ctx.beginPath(); ctx.arc(i.x,i.y,i.s,0,Math.PI*2); ctx.fill(); i.y+=i.v; if(i.y>canvas.height) i.y=-10; });
+                requestAnimationFrame(d);
+            } d();
+        }
+        
+        // 初始化顯示第一頁
+        showPage(1);
+    </script>
+</body>
+</html>
