@@ -90,7 +90,7 @@
             display: inline-block; min-width: 60px; border-bottom: 3px solid var(--ink); 
             color: var(--seal); font-weight: bold; margin: 0 5px; 
         }
-        .tts-icon { font-size: 1.2rem; cursor: pointer; opacity: 0.5; transition: 0.2s; }
+        .tts-icon { font-size: 1.5rem; cursor: pointer; opacity: 0.6; transition: 0.2s; padding: 5px; }
         .tts-icon:hover { opacity: 1; transform: scale(1.1); }
 
         /* 硯台按鈕 */
@@ -245,7 +245,7 @@
         <div id="content-area">
             <div class="sentence-cn">
                 <span id="sentence-cn-text"></span>
-                <span id="tts-icon-box" class="tts-icon hidden" onclick="playCorrectSentence()">🔊</span>
+                <span id="tts-icon-box" class="tts-icon" title="重聽題目">🔊</span>
             </div>
             <div id="sentence-en" class="sentence-en"></div>
             <div id="options" class="option-container"></div>
@@ -294,8 +294,6 @@
         // -------------------------
         // 圖片連結常數 (請更換為您的實際連結)
         // -------------------------
-        // 重要：您需要先壓縮 PNG 圖片，然後上傳到 GitHub，在此替換實際連結。
-        // 或轉為 Base64 字串貼在括號內，能確保完全不依賴外部連結。
         const Kid_Base64 = "Kid_Image_Link_Here"; 
         const Scholar_Base64 = "Scholar_Image_Link_Here";
         const Academician_Base64 = "Academician_Image_Link_Here";
@@ -305,7 +303,7 @@
         if(Scholar_Base64 != "Scholar_Image_Link_Here") document.getElementById('level-img-scholar').src = Scholar_Base64;
         if(Academician_Base64 != "Academician_Image_Link_Here") document.getElementById('level-img-academician').src = Academician_Base64;
 
-        // 完整 75 題無重複題庫 (包含燥/躁高級替換組與所有自然句子修改)
+        // 完整 75 題無重複題庫
         const DATABASE = [
             // 初級 (Tier 0) - 25題
             [
@@ -371,7 +369,7 @@
                 { s: "這場比[ ]很精彩。", q: "賽", o: ["賽", "塞"], e: "This match is exciting.", p: "sài", d: "賽 (Race) vs 塞 (Block)" },
                 { s: "他很乖很聽話。", q: "乖", o: ["乖", "乘"], e: "He is very well-behaved and obedient.", p: "guāi", d: "乖 (Behave) vs 乘 (Ride)" }
             ],
-            // 高級 (Tier 2) - 25題 (包含了燥/躁組、自然臉組)
+            // 高級 (Tier 2) - 25題
             [
                 { s: "軍隊正在[ ]署。", q: "部", o: ["部", "佈"], e: "Army is deploying.", p: "bù", d: "部 (Deploy) vs 佈 (Spread)" },
                 { s: "今年是戊[ ]年。", q: "戌", o: ["戊", "戌"], e: "It is the Wu-Xu year.", p: "xū", d: "戌 (11th Branch) vs 戊 (5th Stem)" },
@@ -414,21 +412,23 @@
         let state = { tier: 0, stage: 0, qIdx: 0, timer: 0, interval: null };
         const tts = window.speechSynthesis;
         let ttsUtterance = new SpeechSynthesisUtterance();
-        ttsUtterance.lang = 'zh-TW'; // 設定繁體中文
-        ttsUtterance.rate = 0.9; // 稍微放慢語速
+        ttsUtterance.lang = 'zh-TW'; 
+        ttsUtterance.rate = 0.9; 
 
         // -------------------------
-        // 音效系統 (純代碼生成)
+        // 音效系統 (純代碼生成叮！聲)
         // -------------------------
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
         function playCorrectSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
-            oscillator.type = 'sine'; // 玉石鈴聲感
-            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5高音
+            oscillator.type = 'sine'; 
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
             gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.01); // 快速起音
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3); // 快速衰減
+            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.01); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3); 
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.3);
@@ -437,22 +437,12 @@
         // -------------------------
         // 語音 TTS 系統
         // -------------------------
-        function speak(text, autoPlay = true) {
+        function speak(text) {
             if(!tts) return;
             tts.cancel(); // 停止目前的播放
             ttsUtterance.text = text;
-            if(autoPlay) tts.speak(ttsUtterance);
+            tts.speak(ttsUtterance);
         }
-
-        function playCorrectSentence() {
-            const currentData = DATABASE[state.tier][(state.stage * 5) + state.qIdx];
-            const fullText = currentData.s.replace("[ ]", currentData.q);
-            speak(fullText);
-        }
-
-        // -------------------------
-        // 遊戲核心邏輯
-        // -------------------------
 
         // 控制三頁式選單的切換
         function showPage(pageNum) {
@@ -478,10 +468,10 @@
                 avatarImg.classList.add('hidden');
             }
 
+            if (audioCtx.state === 'suspended') audioCtx.resume(); // 解鎖音頻播放權限
             startTimer(); updateUI(); loadQuestion();
         }
 
-        // 回首頁 (直接回到難度選擇頁面 page-3，方便快速重啟)
         function returnToMenu() {
             clearInterval(state.interval);
             showPage(3);
@@ -489,6 +479,7 @@
             document.getElementById('btn-home').classList.add('hidden');
             document.getElementById('promo-overlay').classList.add('hidden');
             document.getElementById('ultimate-overlay').classList.add('hidden');
+            tts.cancel();
         }
 
         function startTimer() {
@@ -497,7 +488,6 @@
         }
 
         function updateUI() {
-            // 更新地圖
             const nodes = document.querySelectorAll('.stage-node');
             nodes.forEach((n, i) => {
                 n.className = 'stage-node';
@@ -506,7 +496,6 @@
             });
             document.getElementById('stage-text').innerText = `關卡：${state.stage + 1} / 5`;
 
-            // 更新印章
             const slots = document.querySelectorAll('.stamp-slot');
             slots.forEach((s, i) => {
                 if (i < state.qIdx) {
@@ -521,9 +510,15 @@
         function loadQuestion() {
             const data = DATABASE[state.tier][(state.stage * 5) + state.qIdx];
             document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">?</span>`);
-            document.getElementById('tts-icon-box').classList.add('hidden'); // 隱藏小喇叭
             document.getElementById('sentence-en').innerText = data.e;
             
+            // 自動播放：將空格替換為「空格」唸出，避免劇透
+            const questionSpeechText = data.s.replace("[ ]", "，空格，");
+            speak(questionSpeechText);
+            
+            // 設定小喇叭點擊事件：播放未完成的句子
+            document.getElementById('tts-icon-box').onclick = () => speak(questionSpeechText);
+
             const optBox = document.getElementById('options'); optBox.innerHTML = "";
             [...data.o].sort(() => Math.random() - 0.5).forEach(opt => {
                 const btn = document.createElement('button'); btn.className = 'inkstone-btn'; btn.innerText = opt;
@@ -533,15 +528,25 @@
 
         function handleAnswer(ans, data) {
             if (ans === data.q) {
-                playCorrectSound(); // 播放叮！聲
-                state.qIdx++; updateUI();
+                playCorrectSound(); // 播放過關音效
                 
-                // 答對後填上正確字，並顯示小喇叭
+                // 填上正確的漢字
                 document.getElementById('sentence-cn-text').innerHTML = data.s.replace("[ ]", `<span class="blank-space">${data.q}</span>`);
-                document.getElementById('tts-icon-box').classList.remove('hidden');
+                
+                // 播放完整正確句子
+                const fullCorrectText = data.s.replace("[ ]", data.q);
+                speak(fullCorrectText);
+                
+                // 設定小喇叭點擊事件：改為播放完整句子
+                document.getElementById('tts-icon-box').onclick = () => speak(fullCorrectText);
 
-                if (state.qIdx >= 5) setTimeout(finishStage, 800); // 延長停留時間，享受成就感
-                else setTimeout(loadQuestion, 800);
+                // 延遲跳轉，讓學生有時間聽完語音 (1.5秒 - 2秒)
+                setTimeout(() => {
+                    state.qIdx++; updateUI();
+                    if (state.qIdx >= 5) finishStage();
+                    else loadQuestion();
+                }, 2000); 
+
             } else {
                 showError(data);
             }
@@ -554,7 +559,7 @@
                 <p style="border-top:1px dashed #ccc; padding-top:10px;">辨析：${d.d}</p>
             `;
             document.getElementById('error-overlay').classList.remove('hidden');
-            // 自動朗讀拼音與辨析 (不唸全句避免擾民)
+            // 答錯時自動朗讀拼音與辨析 (不唸全句避免擾民)
             speak(`${d.q}，拼音是 ${d.p}。${d.d}`);
         }
         function hideError() { document.getElementById('error-overlay').classList.add('hidden'); }
@@ -570,11 +575,10 @@
         }
 
         function triggerPromo() {
-            const r = RANKS[state.tier + 1]; // 展示下一級的稱號與圖片
+            const r = RANKS[state.tier + 1]; 
             document.getElementById('promo-title').innerText = r.name;
             document.getElementById('promo-desc').innerText = r.desc;
             
-            // 更新升級彈窗圖片
             const promoImg = document.getElementById('promo-img');
             if(r.img != "Scholar_Image_Link_Here" && r.img != "Academician_Image_Link_Here") {
                 promoImg.src = r.img;
@@ -584,7 +588,7 @@
             }
 
             document.getElementById('promo-overlay').classList.remove('hidden');
-            speak(`恭喜！晉封為 ${r.name}`);
+            speak(`恭喜晉封為 ${r.name}`);
         }
 
         function nextTier() {
@@ -593,9 +597,8 @@
         }
 
         function triggerUltimate() {
-            const r = RANKS[2]; // 翰林學士
+            const r = RANKS[2]; 
             
-            // 更新終極通關文牒圖片
             const passportImg = document.getElementById('ultimate-passport-img');
             if(r.img != "Academician_Image_Link_Here") {
                 passportImg.src = r.img;
@@ -609,7 +612,6 @@
             initGoldDust();
         }
 
-        // 金粉粒子特效
         function initGoldDust() {
             const canvas = document.getElementById('dust-canvas');
             const ctx = canvas.getContext('2d');
