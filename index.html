@@ -111,7 +111,7 @@
         .certificate { 
             background: #fdf5e6; padding: 40px; border: 12px double var(--wood); 
             text-align: center; width: 90%; max-width: 600px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            overflow-y: auto; max-height: 90vh; /* 防止內容過多超出螢幕 */
+            overflow-y: auto; max-height: 90vh; 
         }
         .btn-start { 
             background: var(--wood); color: white; padding: 12px 20px; font-size: 1.1rem; 
@@ -126,25 +126,23 @@
         .rules-en { font-size: 0.9rem; color: #666; display: block; margin-top: 3px; }
 
         /* ----------------------------------------------------------- */
-        /* 高級身份選擇按鈕視覺 - 去背圖案放大並移除圓圈 */
+        /* 高級身份選擇按鈕視覺 - 修改高度為原本的 75% */
         /* ----------------------------------------------------------- */
         .level-btn {
-            display: flex; align-items: center; gap: 25px; text-align: left; padding: 20px 30px;
+            display: flex; align-items: center; gap: 25px; text-align: left; 
+            padding: 15px 30px; /* 從 20px 縮減為 15px (75%) */
             background: #fff; border: 3px solid var(--wood); cursor: pointer; transition: 0.2s;
             width: 100%; font-family: 'Noto Serif TC', serif; position: relative;
-            margin-bottom: 10px; /* 按鈕之間的間距 */
+            margin-bottom: 10px; 
         }
         .level-btn:hover { border-color: var(--gold); background: #fdf5e6; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
         
-        /* 圖片放大到 120px (80px * 1.5)，並移除圓圈效果以適應去背圖片 */
         .level-btn img { 
-            width: 120px; 
-            height: 120px; 
-            /* 移除舊有的圓圈效果 */
+            width: 90px;  /* 從 120px 縮小至 90px (75%) */
+            height: 90px; /* 從 120px 縮小至 90px (75%) */
             border-radius: 0; 
             border: none; 
-            object-fit: contain; /* 確保圖片在不被擠壓變形的情況下完整顯示 */
-            /* 移除舊有的背景色 */
+            object-fit: contain; 
             background-color: transparent; 
         }
         
@@ -213,21 +211,21 @@
                     <h2 style="color:var(--wood); margin-top:0; margin-bottom: 25px;">選擇挑戰難度</h2>
                     <div style="display:flex; flex-direction:column; gap:15px; max-width:550px; margin:0 auto;">
                         <button class="level-btn" onclick="initGame(0)">
-                            <img src="https://i.ibb.co/SD82bJk8/image.png" id="level-img-kid" alt="Kid">
+                            <img src="https://i.postimg.cc/BnqGg0rt/shi-zi-xiao-tong-qu-bei.png" id="level-img-kid" alt="Kid">
                             <div>
                                 <div class="level-title">識字小童</div>
                                 <div class="level-desc">Apprentice / Elementary</div>
                             </div>
                         </button>
                         <button class="level-btn" onclick="initGame(1)">
-                            <img src="https://i.postimg.cc/gkNb0770/miao-bi-shu-sheng.png" id="level-img-scholar" alt="Scholar">
+                            <img src="https://i.postimg.cc/4x8jQhvB/miao-bi-shu-sheng-qu-bei.png" id="level-img-scholar" alt="Scholar">
                             <div>
                                 <div class="level-title">妙筆書生</div>
                                 <div class="level-desc">Scholar / Intermediate</div>
                             </div>
                         </button>
                         <button class="level-btn" onclick="initGame(2)">
-                            <img src="https://i.postimg.cc/jSxNHDvh/han-lin-xue-shi.png" id="level-img-academician" alt="Academician">
+                            <img src="https://i.postimg.cc/66Ljhvtv/han-lin-xue-shi-qu-bei.png" id="level-img-academician" alt="Academician">
                             <div>
                                 <div class="level-title">翰林學士</div>
                                 <div class="level-desc">Academician / Advanced</div>
@@ -311,11 +309,11 @@
         // -------------------------
         // 圖片連結常數 (已更換為直接連結)
         // -------------------------
-        const Kid_Img_Url = "https://i.ibb.co/SD82bJk8/image.png"; 
-        const Scholar_Img_Url = "https://i.postimg.cc/gkNb0770/miao-bi-shu-sheng.png";
-        const Academician_Img_Url = "https://i.postimg.cc/jSxNHDvh/han-lin-xue-shi.png";
+        const Kid_Img_Url = "https://i.postimg.cc/BnqGg0rt/shi-zi-xiao-tong-qu-bei.png"; 
+        const Scholar_Img_Url = "https://i.postimg.cc/4x8jQhvB/miao-bi-shu-sheng-qu-bei.png";
+        const Academician_Img_Url = "https://i.postimg.cc/66Ljhvtv/han-lin-xue-shi-qu-bei.png";
 
-        // 完整 75 題無重複題庫 (保持不變)
+        // 完整 75 題無重複題庫
         const DATABASE = [
             // 初級 (Tier 0) - 25題
             [
