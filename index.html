@@ -126,7 +126,7 @@
         .rules-en { font-size: 0.9rem; color: #666; display: block; margin-top: 3px; }
 
         /* ----------------------------------------------------------- */
-        /* 修改點：高級身份選擇按鈕視覺 - 圖片放大並修正比例 */
+        /* 高級身份選擇按鈕視覺 - 去背圖案放大並移除圓圈 */
         /* ----------------------------------------------------------- */
         .level-btn {
             display: flex; align-items: center; gap: 25px; text-align: left; padding: 20px 30px;
@@ -136,14 +136,16 @@
         }
         .level-btn:hover { border-color: var(--gold); background: #fdf5e6; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
         
-        /* 圖片放大到 80px，並加入 object-fit: contain 修正比例 */
+        /* 圖片放大到 120px (80px * 1.5)，並移除圓圈效果以適應去背圖片 */
         .level-btn img { 
-            width: 100px; 
-            height: 100px; 
-            border-radius: 70%; 
-            border: 2px solid var(--gold); 
+            width: 120px; 
+            height: 120px; 
+            /* 移除舊有的圓圈效果 */
+            border-radius: 0; 
+            border: none; 
             object-fit: contain; /* 確保圖片在不被擠壓變形的情況下完整顯示 */
-            background-color: #f0f0f0; /* 加入淡淡背景色，若圖片非正方形可填補空白處 */
+            /* 移除舊有的背景色 */
+            background-color: transparent; 
         }
         
         .level-title { font-size: 1.7rem; color: var(--wood); font-weight: 900; }
