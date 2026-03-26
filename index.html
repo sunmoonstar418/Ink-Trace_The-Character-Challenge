@@ -111,7 +111,7 @@
         .certificate { 
             background: #fdf5e6; padding: 40px; border: 12px double var(--wood); 
             text-align: center; width: 90%; max-width: 600px; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            overflow-y: auto; max-height: 90vh; 
+            overflow-y: auto; max-height: 90vh; /* 防止內容過多超出螢幕 */
         }
         .btn-start { 
             background: var(--wood); color: white; padding: 12px 20px; font-size: 1.1rem; 
@@ -126,23 +126,26 @@
         .rules-en { font-size: 0.9rem; color: #666; display: block; margin-top: 3px; }
 
         /* ----------------------------------------------------------- */
-        /* 高級身份選擇按鈕視覺 - 修改高度為原本的 75% */
+        /* 修改點：高級身份選擇按鈕視覺 - 去背圖案放大為 1.5倍 並且移除圓圈 */
         /* ----------------------------------------------------------- */
         .level-btn {
-            display: flex; align-items: center; gap: 25px; text-align: left; 
-            padding: 8px 30px;
+            display: flex; align-items: center; gap: 30px; text-align: left; 
+            padding: 25px 35px; /* 增加內邊距以適應放大的圖片 */
             background: #fff; border: 3px solid var(--wood); cursor: pointer; transition: 0.2s;
             width: 100%; font-family: 'Noto Serif TC', serif; position: relative;
-            margin-bottom: 10px; 
+            margin-bottom: 10px; /* 按鈕之間的間距 */
         }
         .level-btn:hover { border-color: var(--gold); background: #fdf5e6; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
         
+        /* 圖片放大到 180px (120px * 1.5)，並移除圓圈與邊框 */
         .level-btn img { 
-            width: 150px; 
-            height: 150px;
+            width: 180px;  /* 放大為 1.5 倍 (120 * 1.5) */
+            height: 180px; /* 放大為 1.5 倍 (120 * 1.5) */
+            /* 移除舊有的圓圈與邊框效果 */
             border-radius: 0; 
             border: none; 
-            object-fit: contain; 
+            object-fit: contain; /* 確保圖片在不被擠壓變形的情況下完整顯示 */
+            /* 移除舊有的背景色 */
             background-color: transparent; 
         }
         
@@ -160,6 +163,34 @@
             transform: scale(5); opacity: 0; animation: slam 0.5s 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes slam { to { transform: scale(1) rotate(-5deg); opacity: 1; } }
+
+        /* ----------------------------------------------------------- */
+        /* 修改點：晉級彈窗圖片與終極通關文牒圖片 - 放大 1.5倍 移除圓圈 */
+        /* ----------------------------------------------------------- */
+        
+        /* 晉級彈窗內圖片：放大 1.5倍 移除圓圈效果 */
+        #promo-img { 
+            width: 180px;  /* 從 120px 放大至 180px (120 * 1.5) */
+            height: 180px; /* 從 120px 放大至 180px (120 * 1.5) */
+            /* 移除舊有的圓圈效果 */
+            border-radius: 0; 
+            border: none; 
+            margin-bottom: 25px; /* 增加底部間距 */
+            object-fit: contain; /* 改為 contain 以顯示完整去背圖案 */
+            background-color: transparent; /* 確保背景透明 */
+        }
+        
+        /* 終極通關文牒內圖片：放大 1.5倍 移除圓圈效果 */
+        #ultimate-passport-img { 
+            width: 225px;  /* 從 150px 放大至 225px (150 * 1.5) */
+            height: 225px; /* 從 150px 放大至 225px (150 * 1.5) */
+            /* 移除舊有的圓圈效果 */
+            border-radius: 0; 
+            border: none; 
+            margin-bottom: 30px; /* 增加底部間距 */
+            object-fit: contain; /* 改為 contain 以顯示完整去背圖案 */
+            background-color: transparent; /* 確保背景透明 */
+        }
 
         .hidden { display: none !important; }
     </style>
@@ -211,21 +242,21 @@
                     <h2 style="color:var(--wood); margin-top:0; margin-bottom: 25px;">選擇挑戰難度</h2>
                     <div style="display:flex; flex-direction:column; gap:15px; max-width:550px; margin:0 auto;">
                         <button class="level-btn" onclick="initGame(0)">
-                            <img src="https://i.postimg.cc/BnqGg0rt/shi-zi-xiao-tong-qu-bei.png" id="level-img-kid" alt="Kid">
+                            <img src="https://i.ibb.co/SD82bJk8/image.png" id="level-img-kid" alt="Kid">
                             <div>
                                 <div class="level-title">識字小童</div>
                                 <div class="level-desc">Apprentice / Elementary</div>
                             </div>
                         </button>
                         <button class="level-btn" onclick="initGame(1)">
-                            <img src="https://i.postimg.cc/4x8jQhvB/miao-bi-shu-sheng-qu-bei.png" id="level-img-scholar" alt="Scholar">
+                            <img src="https://i.postimg.cc/gkNb0770/miao-bi-shu-sheng.png" id="level-img-scholar" alt="Scholar">
                             <div>
                                 <div class="level-title">妙筆書生</div>
                                 <div class="level-desc">Scholar / Intermediate</div>
                             </div>
                         </button>
                         <button class="level-btn" onclick="initGame(2)">
-                            <img src="https://i.postimg.cc/66Ljhvtv/han-lin-xue-shi-qu-bei.png" id="level-img-academician" alt="Academician">
+                            <img src="https://i.postimg.cc/jSxNHDvh/han-lin-xue-shi.png" id="level-img-academician" alt="Academician">
                             <div>
                                 <div class="level-title">翰林學士</div>
                                 <div class="level-desc">Academician / Advanced</div>
@@ -275,8 +306,8 @@
         </div>
 
         <div id="promo-overlay" class="overlay hidden">
-            <div class="certificate">
-                <img src="" id="promo-img" style="width:120px; height:120px; border-radius:50%; border:5px solid var(--gold); margin-bottom:20px; object-fit: cover;" alt="Promo">
+            <div class="certificate" style="padding: 50px;">
+                <img src="" id="promo-img" alt="Promo">
                 <h2 style="color:var(--wood)">成就達成證明</h2>
                 <h1 id="promo-title" style="font-size:2.5rem; color:var(--seal); margin:10px 0;"></h1>
                 <p id="promo-desc"></p>
@@ -286,9 +317,9 @@
 
         <div id="ultimate-overlay" class="overlay hidden">
             <div class="certificate" id="passport-wrap">
-                <div style="background:#fff; padding:40px; position:relative; overflow:hidden;">
+                <div style="background:#fff; padding: 60px; position:relative; overflow:hidden;">
                     <canvas id="dust-canvas"></canvas>
-                    <img src="" id="ultimate-passport-img" style="width:150px; height:150px; border-radius:50%; border:6px solid var(--gold); margin-bottom:25px; object-fit: cover;" alt="Academician">
+                    <img src="" id="ultimate-passport-img" alt="Academician">
                     <h1 style="color:var(--wood); border-bottom:3px double var(--gold); margin:0 0 20px 0;">通關文牒</h1>
                     <div style="font-size:1.2rem; line-height:1.8;">
                         <b>才高八斗，學富五車。</b><br>
@@ -307,13 +338,13 @@
 
     <script>
         // -------------------------
-        // 圖片連結常數 (已更換為直接連結)
+        // 圖片連結常數 (用戶已更換為去背圖片連結)
         // -------------------------
-        const Kid_Img_Url = "https://i.postimg.cc/BnqGg0rt/shi-zi-xiao-tong-qu-bei.png"; 
-        const Scholar_Img_Url = "https://i.postimg.cc/4x8jQhvB/miao-bi-shu-sheng-qu-bei.png";
-        const Academician_Img_Url = "https://i.postimg.cc/66Ljhvtv/han-lin-xue-shi-qu-bei.png";
+        const Kid_Img_Url = "https://i.ibb.co/SD82bJk8/image.png"; 
+        const Scholar_Img_Url = "https://i.postimg.cc/gkNb0770/miao-bi-shu-sheng.png";
+        const Academician_Img_Url = "https://i.postimg.cc/jSxNHDvh/han-lin-xue-shi.png";
 
-        // 完整 75 題無重複題庫
+        // 完整 75 題無重複題庫 (保持不變)
         const DATABASE = [
             // 初級 (Tier 0) - 25題
             [
@@ -343,7 +374,7 @@
                 
                 { s: "請把門關[ ]。", q: "上", o: ["上", "下"], e: "Please close the door.", p: "shàng", d: "上 (Up) vs 下 (Down)" },
                 { s: "樹[ ]有很多螞蟻。", q: "下", o: ["上", "下"], e: "Ants are under the tree.", p: "xià", d: "下 (Down) vs 上 (Up)" },
-                { s: "這件衣服很乾[ ]。", q: "淨", o: ["淨", "爭"], e: "Clothing is very clean.", p: "jìng", d: "淨 (Clean) vs 爭 (Strive)" },
+                { s: "決戰乾[ ]淨。", q: "淨", o: ["淨", "爭"], e: "Battle for clean.", p: "jìng", d: "淨 (Clean) vs 爭 (Strive)" },
                 { s: "這是一個好[ ]法。", q: "方", o: ["放", "方"], e: "This is a good method.", p: "fāng", d: "方 (Method) vs 放 (Put)" },
                 { s: "請把書[ ]回桌上。", q: "放", o: ["放", "方"], e: "Put the book on the table.", p: "fàng", d: "放 (Put) vs 方 (Method)" }
             ],
