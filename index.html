@@ -40,18 +40,18 @@
         header { text-align: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px; position: relative; }
         .title { font-size: 2.5rem; margin: 0; color: var(--wood); letter-spacing: 5px; font-weight: 900; }
 
-        /* ── 修改2：遊戲頁左上角頭像：取消黃框，放大2倍 (80px → 80px, 原本40px) ── */
+        /* 遊戲頁左上角頭像：無圓形裁切、無框、圖示完整呈現 */
         .avatar { 
-            width: 80px;        /* 原本 40px，放大2倍 */
-            height: 80px;       /* 原本 40px，放大2倍 */
-            border-radius: 50%; 
+            width: 120px;
+            height: 120px;
+            border-radius: 0;
             position: absolute; 
             left: 0; 
             top: 50%; 
             transform: translateY(-50%); 
-            border: none;       /* 原本 2px solid var(--gold)，改為無框 */
-            box-shadow: none;   /* 移除陰影 */
-            object-fit: cover; 
+            border: none;
+            box-shadow: none;
+            object-fit: contain;
         }
 
         .stage-map { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
